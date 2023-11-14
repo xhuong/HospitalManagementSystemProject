@@ -18,7 +18,6 @@ export class RoleService {
         return {
           statusCode: 400,
           message: "Role is exites",
-          // data,
         };
       }
       const data = await this.prisma.role.create({ data: createRoleDto });
@@ -31,19 +30,64 @@ export class RoleService {
     }
   }
 
-  findAll() {
-    return `This action returns all role`;
+  async findAll() {
+    try {
+      const data = await this.prisma.role.findMany();
+      return {
+        message: "Get all roles successfully",
+        data,
+      };
+    } catch {
+      return {
+        message: `Get all roles failed`,
+      };
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} role`;
+  async findOne(id: number) {
+    try {
+      const data = await this.prisma.role.findUnique({
+        where: { id },
+      });
+      return {
+        message: `Get role data with id ${id} successfully`,
+        data,
+      };
+    } catch {
+      return {
+        message: `Get role data with id ${id} failed`,
+      };
+    }
   }
 
-  update(id: number, updateRoleDto: UpdateRoleDto) {
-    return `This action updates a #${id} role`;
+  async update(id: number, updateRoleDto: UpdateRoleDto) {
+    try {
+      const data = await this.prisma.role.update({
+        where: { id },
+        data: updateRoleDto,
+      });
+
+      return {
+        message: `Update role with id ${id} successfully`,
+        data,
+      };
+    } catch {
+      return {
+        message: `Update role with id ${id} failed`,
+      };
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} role`;
+  async remove(id: number) {
+    try {
+      await this.prisma.role.delete({ where: { id } });
+      return {
+        message: `Delete role with id ${id} successfully`,
+      };
+    } catch {
+      return {
+        message: `Delete role with id ${id} failed`,
+      };
+    }
   }
 }

@@ -7,7 +7,7 @@ export enum EUserRole {
 }
 
 export enum EUserGender {
-  Male = "male",
-  Female = "female",
-  Other = "other",
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  OTHER = "OTHER",
 }

@@ -30,16 +30,8 @@ export class AuthGuard implements CanActivate {
 
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(" ") ?? [];
-
     const decodeJwtAccessToken = this.jwtService.decode(token);
-    // const payload = request.headers.authorization?.split(" ")[1] ?? [];
-    // console.log("request.headers.authorization", request.headers.authorization);
-    // console.log("payload", payload);
     console.log("decodeJwtAccessToken", decodeJwtAccessToken);
     return type === "Bearer" ? token : undefined;
   }
-
-  // private extractUserInformationFromHeader(request: Request):string | undefined {
-  //   const
-  // }
 }

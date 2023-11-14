@@ -17,7 +17,7 @@ import { AuthGuard } from "src/auth/auth.guard";
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Post()
   create(@Body() createRoleDto: CreateRoleDto) {
     return this.roleService.create(createRoleDto);
@@ -35,6 +35,8 @@ export class RoleController {
 
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateRoleDto: UpdateRoleDto) {
+    console.log(id);
+
     return this.roleService.update(+id, updateRoleDto);
   }
 

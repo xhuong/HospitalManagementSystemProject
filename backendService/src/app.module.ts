@@ -8,9 +8,10 @@ import { RoleModule } from "./role/role.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { ResponseInterceptor } from "./interceptors/response.interceptor";
+import { DepartmentModule } from './department/department.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, DatabaseModule, RoleModule, PrismaModule],
+  imports: [UsersModule, AuthModule, DatabaseModule, RoleModule, PrismaModule, DepartmentModule],
   controllers: [AppController],
   providers: [
     AppService,

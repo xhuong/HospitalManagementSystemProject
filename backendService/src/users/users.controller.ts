@@ -15,11 +15,11 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { AuthGuard } from "src/auth/auth.guard";
 import { Response } from "express";
 
-@Controller("users")
+@Controller("user")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -27,12 +27,12 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Post()
-  findOne(@Body() userName: string) {
-    console.log("userName", userName);
-    return this.usersService.findOne(userName);
+  findOne(@Body() username: string) {
+    console.log("username", username);
+    return this.usersService.findOne(username);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get()
   findAll(@Res() response: Response) {
     return this.usersService.findAll(response);

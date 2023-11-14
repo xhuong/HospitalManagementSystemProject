@@ -16,7 +16,7 @@ export class ResponseInterceptor implements NestInterceptor {
       map((resData) => {
         return {
           data: resData?.data,
-          statusCode: resData.statusCode ?? response.getResponse(),
+          statusCode: resData.statusCode ?? response.statusCode,
           message: resData?.message,
         };
       }),

@@ -1,6 +1,8 @@
 import {
   IsDateString,
   IsEnum,
+  IsNumber,
+  IsOptional,
   IsPhoneNumber,
   IsString,
   MinLength,
@@ -15,7 +17,7 @@ export class CreateUserDto {
   @MinLength(8, {
     message: "The username must be greater than or equal 8 character",
   })
-  username: string;
+  user_name: string;
 
   @IsString()
   @MinLength(12, {
@@ -23,18 +25,34 @@ export class CreateUserDto {
   })
   password: string;
 
-  @IsString()
-  address: string;
-
   @IsDateString()
   birthday: Date;
 
   @IsPhoneNumber("VN")
-  readonly phoneNumber: string;
+  phone_number: string;
+
+  @IsString()
+  address: string;
 
   @IsEnum(EUserGender, { message: "Invalid gender" })
   gender?: EUserGender;
 
-  @IsString()
-  role: EUserRole;
+  @IsNumber()
+  id_role: number;
+
+  @IsNumber()
+  id_department: number;
+
+  @IsNumber()
+  id_room: number;
+
+  @IsOptional()
+  @IsNumber()
+  id_bed?: number;
+
+  @IsDateString()
+  create_at?: Date;
+
+  @IsDateString()
+  update_at?: Date;
 }
