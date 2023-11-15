@@ -26,8 +26,8 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard)
-  @Post()
-  findOne(@Body() username: string) {
+  @Post(":username")
+  findOne(@Param(":username") username: string) {
     console.log("username", username);
     return this.usersService.findOne(username);
   }

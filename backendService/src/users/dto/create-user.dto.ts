@@ -35,7 +35,7 @@ export class CreateUserDto {
   address: string;
 
   @IsEnum(EUserGender, { message: "Invalid gender" })
-  gender?: EUserGender;
+  gender: EUserGender;
 
   @IsNumber()
   id_role: number;
@@ -51,8 +51,8 @@ export class CreateUserDto {
   id_bed?: number;
 
   @IsDateString()
-  create_at?: Date;
+  create_at: Date;
 
   @IsDateString()
-  update_at?: Date;
+  update_at: Date;
 }

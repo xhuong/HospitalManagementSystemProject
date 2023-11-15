@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,7 +5,7 @@ generator client {
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  relationMode = "foreignKeys"
 }
 
 enum EUserGender {
@@ -107,8 +104,8 @@ model Room {
   name          String
   room_type     ERoomType
   price         Int
+  department    Department @relation(fields: [id_department], references: [id])
   id_department Int
-  department    Department @relation(fields: [id_department], references: [id], onDelete: Cascade, onUpdate: Cascade)
   User          User[]
   Bed           Bed[]
 }

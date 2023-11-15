@@ -9,9 +9,10 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { ResponseInterceptor } from "./interceptors/response.interceptor";
 import { DepartmentModule } from './department/department.module';
+import { RoomModule } from './room/room.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, DatabaseModule, RoleModule, PrismaModule, DepartmentModule],
+  imports: [UsersModule, AuthModule, DatabaseModule, RoleModule, PrismaModule, DepartmentModule, RoomModule],
   controllers: [AppController],
   providers: [
     AppService,

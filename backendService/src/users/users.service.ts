@@ -4,25 +4,62 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { Response } from "express";
 import { PrismaService } from "src/prisma/prisma.service";
 
-export type User = {
-  userId: number;
-  userName: string;
-  password: string;
-};
-
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  create(_createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
     try {
-      const isExistUser = this.prisma.user.findFirst({
-        where: { user_name: _createUserDto.user_name },
+      console.log("111");
+
+      const isExistUser = await this.prisma.user.findFirst({
+        where: { user_name: createUserDto.user_name },
       });
-      console.log("isExistUser:", isExistUser);
-    } catch {}
-    console.log("_createUserDto data:", _createUserDto);
-    return "This action adds a new user";
+      console.log("isExistUser", isExistUser);
+      if (isExistUser) {
+        console.log("222");
+        return {
+          message: "This username is exist, please choose another username",
+        };
+      } else {
+        console.log("xxx");
+
+        const data = await this.prisma.user.create({
+          data: createUserDto,
+        });
+
+        console.log(
+          "🚀 ~ file: users.service.ts:30 ~ UsersService ~ create ~ data:",
+          data,
+        );
+
+        console.log("444");
+
+        return {
+          data,
+          message: "Create new user successfully",
+        };
+
+        // return data
+        //   ? response.status(200).json({
+        //       status: 200,
+        //       result: {
+        //         message: "Create new user successfully",
+        //         data,
+        //       },
+        //     })
+        //   : response.status(400).json({
+        //       status: 200,
+        //       result: {
+        //         message: "Something went wrong",
+        //       },
+        //     });
+      }
+    } catch {
+      return {
+        message: "Bad request",
+      };
+    }
   }
 
   async findAll(response: Response) {

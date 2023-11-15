@@ -145,3 +145,45 @@ CREATE TABLE `Payment` (
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `User` ADD CONSTRAINT `User_id_role_fkey` FOREIGN KEY (`id_role`) REFERENCES `Role`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `User` ADD CONSTRAINT `User_id_department_fkey` FOREIGN KEY (`id_department`) REFERENCES `Department`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `User` ADD CONSTRAINT `User_id_room_fkey` FOREIGN KEY (`id_room`) REFERENCES `Room`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `User` ADD CONSTRAINT `User_id_bed_fkey` FOREIGN KEY (`id_bed`) REFERENCES `Bed`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `HealthInsuranceCard` ADD CONSTRAINT `HealthInsuranceCard_id_patient_fkey` FOREIGN KEY (`id_patient`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Room` ADD CONSTRAINT `Room_id_department_fkey` FOREIGN KEY (`id_department`) REFERENCES `Department`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Bed` ADD CONSTRAINT `Bed_id_room_fkey` FOREIGN KEY (`id_room`) REFERENCES `Room`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `MedicalRecord` ADD CONSTRAINT `MedicalRecord_id_patient_fkey` FOREIGN KEY (`id_patient`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `MedicalExamination` ADD CONSTRAINT `MedicalExamination_id_medical_record_fkey` FOREIGN KEY (`id_medical_record`) REFERENCES `MedicalRecord`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `ServiceRelMedicalExamination` ADD CONSTRAINT `ServiceRelMedicalExamination_id_service_fkey` FOREIGN KEY (`id_service`) REFERENCES `Service`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `ServiceRelMedicalExamination` ADD CONSTRAINT `ServiceRelMedicalExamination_id_medical_examination_fkey` FOREIGN KEY (`id_medical_examination`) REFERENCES `MedicalExamination`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Prescription` ADD CONSTRAINT `Prescription_id_medical_examination_fkey` FOREIGN KEY (`id_medical_examination`) REFERENCES `MedicalExamination`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `PrescriptionRelMedical` ADD CONSTRAINT `PrescriptionRelMedical_id_prescription_fkey` FOREIGN KEY (`id_prescription`) REFERENCES `Prescription`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `PrescriptionRelMedical` ADD CONSTRAINT `PrescriptionRelMedical_id_medical_fkey` FOREIGN KEY (`id_medical`) REFERENCES `Medical`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
