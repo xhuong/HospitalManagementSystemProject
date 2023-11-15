@@ -17,25 +17,25 @@ import { AuthGuard } from "src/auth/auth.guard";
 export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Post()
   create(@Body() createDepartmentDto: CreateDepartmentDto) {
     return this.departmentService.create(createDepartmentDto);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.departmentService.findAll();
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.departmentService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Patch(":id")
   update(
     @Param("id") id: string,
@@ -44,7 +44,7 @@ export class DepartmentController {
     return this.departmentService.update(+id, updateDepartmentDto);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.departmentService.remove(+id);

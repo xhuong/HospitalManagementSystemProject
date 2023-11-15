@@ -7,38 +7,20 @@ import { PrismaService } from "src/prisma/prisma.service";
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
-
-  async create(createUserDto: CreateUserDto, response: Response) {
-    try {
-      const isExistUser = await this.prisma.user.findFirst({
-        where: { user_name: createUserDto.user_name },
-      });
-      if (isExistUser) {
-        return {
-          message: "This username is exist, please choose another username",
-        };
-      } else {
-        const data = await this.prisma.user.create({
-          data: createUserDto,
-        });
-        return data
-          ? response.status(200).json({
-              status: 200,
-              result: {
-                message: "Create new user successfully",
-                data,
-              },
-            })
-          : response.status(400).json({
-              status: 200,
-              result: {
-                message: "Something went wrong",
-              },
-            });
-      }
-    } catch {
+  async create(createUserDto: CreateUserDto) {
+    const data = await this.prisma.user.create({
+      data: createUserDto,
+    });
+    if (data) {
       return {
-        message: "Bad request",
+        data,
+        statusCode: 200,
+        message: "Create new user successfully",
+      };
+    } else {
+      return {
+        statusCode: 400,
+        message: "Create new user failed",
       };
     }
   }
@@ -66,6 +48,7 @@ export class UsersService {
   }
 
   async findOne(username: string) {
+    console.log(username);
     try {
       const data = this.prisma.user.findFirst({
         where: { user_name: username },

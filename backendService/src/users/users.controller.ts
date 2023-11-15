@@ -21,14 +21,13 @@ export class UsersController {
 
   // @UseGuards(AuthGuard)
   @Post()
-  create(@Body() createUserDto: CreateUserDto, @Res() response: Response) {
-    return this.usersService.create(createUserDto, response);
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Post(":username")
-  findOne(@Param(":username") username: string) {
-    console.log("username", username);
+  findOne(@Param("username") username: string) {
     return this.usersService.findOne(username);
   }
 
@@ -38,13 +37,13 @@ export class UsersController {
     return this.usersService.findAll(response);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.usersService.remove(+id);

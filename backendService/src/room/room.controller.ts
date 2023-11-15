@@ -17,31 +17,31 @@ import { AuthGuard } from "src/auth/auth.guard";
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Post()
   create(@Body() createRoomDto: CreateRoomDto) {
     return this.roomService.create(createRoomDto);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.roomService.findAll();
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.roomService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateRoomDto: UpdateRoomDto) {
     return this.roomService.update(+id, updateRoomDto);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.roomService.remove(+id);

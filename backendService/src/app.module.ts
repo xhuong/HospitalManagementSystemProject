@@ -1,8 +1,8 @@
 import {
   Module,
-  NestModule,
-  RequestMethod,
-  MiddlewareConsumer,
+  // NestModule,
+  // RequestMethod,
+  // MiddlewareConsumer,
 } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -15,7 +15,7 @@ import { APP_INTERCEPTOR } from "@nestjs/core";
 import { ResponseInterceptor } from "./interceptors/response.interceptor";
 import { DepartmentModule } from "./department/department.module";
 import { RoomModule } from "./room/room.module";
-import { TimeoutMiddleWare } from "./middleware/TimeoutMiddleWare/timeout.middleware";
+// import { TimeoutMiddleWare } from "./middleware/TimeoutMiddleWare/timeout.middleware";
 
 @Module({
   imports: [
@@ -36,13 +36,15 @@ import { TimeoutMiddleWare } from "./middleware/TimeoutMiddleWare/timeout.middle
     },
   ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(TimeoutMiddleWare)
-      .forRoutes(
-        { path: "user", method: RequestMethod.GET },
-        { path: "user", method: RequestMethod.POST },
-      );
-  }
-}
+export class AppModule {}
+
+// implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer
+//       .apply(TimeoutMiddleWare)
+//       .forRoutes(
+//         { path: "user", method: RequestMethod.GET },
+//         { path: "user", method: RequestMethod.POST },
+//       );
+//   }
+// }
