@@ -21,8 +21,8 @@ export class UsersController {
 
   // @UseGuards(AuthGuard)
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(@Body() createUserDto: CreateUserDto, @Res() response: Response) {
+    return this.usersService.create(createUserDto, response);
   }
 
   @UseGuards(AuthGuard)
@@ -38,11 +38,13 @@ export class UsersController {
     return this.usersService.findAll(response);
   }
 
+  @UseGuards(AuthGuard)
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.usersService.remove(+id);

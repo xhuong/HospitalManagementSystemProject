@@ -7,21 +7,21 @@ import {
   IsString,
   MinLength,
 } from "class-validator";
-import { EUserGender, EUserRole } from "../interfaces";
+import { EUserGender } from "../interfaces";
 
 export class CreateUserDto {
   @IsString()
   name: string;
 
   @IsString()
-  @MinLength(8, {
-    message: "The username must be greater than or equal 8 character",
+  @MinLength(6, {
+    message: "The username must be greater than or equal 6 character",
   })
   user_name: string;
 
   @IsString()
-  @MinLength(12, {
-    message: "The password must be greater than or equal 12 character",
+  @MinLength(8, {
+    message: "The password must be greater than or equal 8 character",
   })
   password: string;
 

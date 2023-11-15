@@ -8,52 +8,33 @@ import { PrismaService } from "src/prisma/prisma.service";
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto, response: Response) {
     try {
-      console.log("111");
-
       const isExistUser = await this.prisma.user.findFirst({
         where: { user_name: createUserDto.user_name },
       });
-      console.log("isExistUser", isExistUser);
       if (isExistUser) {
-        console.log("222");
         return {
           message: "This username is exist, please choose another username",
         };
       } else {
-        console.log("xxx");
-
         const data = await this.prisma.user.create({
           data: createUserDto,
         });
-
-        console.log(
-          "🚀 ~ file: users.service.ts:30 ~ UsersService ~ create ~ data:",
-          data,
-        );
-
-        console.log("444");
-
-        return {
-          data,
-          message: "Create new user successfully",
-        };
-
-        // return data
-        //   ? response.status(200).json({
-        //       status: 200,
-        //       result: {
-        //         message: "Create new user successfully",
-        //         data,
-        //       },
-        //     })
-        //   : response.status(400).json({
-        //       status: 200,
-        //       result: {
-        //         message: "Something went wrong",
-        //       },
-        //     });
+        return data
+          ? response.status(200).json({
+              status: 200,
+              result: {
+                message: "Create new user successfully",
+                data,
+              },
+            })
+          : response.status(400).json({
+              status: 200,
+              result: {
+                message: "Something went wrong",
+              },
+            });
       }
     } catch {
       return {

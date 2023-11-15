@@ -7,33 +7,106 @@ import { PrismaService } from "src/prisma/prisma.service";
 export class RoomService {
   constructor(private prisma: PrismaService) {}
   async create(createRoomDto: CreateRoomDto) {
-    console.log("123123");
-    const data = await this.prisma.room.create({
-      data: createRoomDto,
-    });
-    return data
-      ? {
-          data,
-          message: "Create new room successfully",
-        }
-      : {
-          message: "Create new room failed",
-        };
+    try {
+      const data = await this.prisma.room.create({
+        data: createRoomDto,
+      });
+      return data
+        ? {
+            data,
+            message: "Create new room successfully",
+          }
+        : {
+            message: "Create new room failed",
+          };
+    } catch {
+      return {
+        statusCode: 404,
+        message: "Bad request",
+      };
+    }
   }
 
-  findAll() {
-    return `This action returns all room`;
+  async findAll() {
+    try {
+      const data = await this.prisma.room.findMany();
+      return data
+        ? {
+            data,
+            message: "Get all rooms successfully",
+          }
+        : {
+            message: "Get all rooms failed",
+          };
+    } catch {
+      return {
+        statusCode: 404,
+        message: "Bad request",
+      };
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} room`;
+  async findOne(id: number) {
+    try {
+      const data = await this.prisma.room.findUnique({
+        where: { id },
+      });
+      return data
+        ? {
+            data,
+            message: `Get room with id =${id} successfully`,
+          }
+        : {
+            message: `Get room with id =${id} failed`,
+          };
+    } catch {
+      return {
+        statusCode: 404,
+        message: "Bad request",
+      };
+    }
   }
 
-  update(id: number, updateRoomDto: UpdateRoomDto) {
-    return `This action updates a #${id} room`;
+  async update(id: number, updateRoomDto: UpdateRoomDto) {
+    try {
+      const data = await this.prisma.room.update({
+        data: updateRoomDto,
+        where: { id },
+      });
+      return data
+        ? {
+            data,
+            message: `Update room with id =${id} successfully`,
+          }
+        : {
+            message: `Update room with id =${id} failed`,
+          };
+    } catch {
+      return {
+        statusCode: 404,
+        message: "Bad request",
+      };
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} room`;
+  async remove(id: number) {
+    try {
+      const data = await this.prisma.room.delete({
+        where: { id },
+      });
+      return data
+        ? {
+            data,
+            message: `Delete room with id =${id} successfully`,
+          }
+        : {
+            message: `Delete room with id =${id} failed`,
+          };
+    } catch {
+      return {
+        statusCode: 404,
+        message: "Bad request",
+      };
+    }
   }
 }

@@ -23,16 +23,19 @@ export class RoleController {
     return this.roleService.create(createRoleDto);
   }
 
+  // @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.roleService.findAll();
   }
 
+  @UseGuards(AuthGuard)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.roleService.findOne(+id);
   }
 
+  @UseGuards(AuthGuard)
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateRoleDto: UpdateRoleDto) {
     console.log(id);
@@ -40,6 +43,7 @@ export class RoleController {
     return this.roleService.update(+id, updateRoleDto);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.roleService.remove(+id);
