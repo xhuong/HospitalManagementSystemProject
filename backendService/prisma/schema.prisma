@@ -1,0 +1,187 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "foreignKeys"
+}
+
+enum EUserGender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum EHealthInsuranceCardStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum EDepartmentType {
+  CLINICAL_DEPARTMENT
+  CLINICAL_LABORATORY_DEPARTMENT
+  FUNCTIONAL_DEPARTMENT
+}
+
+enum ERoomType {
+  NORMAL
+  VIP
+}
+
+enum EMedicalUnit {
+  TABLET
+  BLISTER_PACK
+  BOX
+  BOTTLE
+  JAR
+  TUBE
+}
+
+enum ERole {
+  ADMIN
+  DOCTOR
+  PHARMACIST
+  NURSE
+  PATIENT
+}
+
+enum EPAYMENT_METHOD {
+  PAYMENT_IN_CASH
+  BANK_TRANSFER
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String
+  code ERole
+  User User[]
+}
+
+model User {
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  user_name           String
+  password            String
+  birthday            DateTime
+  phone_number        String
+  address             String
+  gender              EUserGender
+  id_role             Int
+  role                Role                  @relation(fields: [id_role], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id_department       Int
+  department          Department            @relation(fields: [id_department], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id_room             Int
+  room                Room                  @relation(fields: [id_room], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id_bed              Int?
+  bed                 Bed?                  @relation(fields: [id_bed], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  create_at           DateTime              @default(now())
+  update_at           DateTime              @updatedAt
+  HealthInsuranceCard HealthInsuranceCard[]
+  MedicalRecord       MedicalRecord[]
+}
+
+model HealthInsuranceCard {
+  id            Int                        @id @default(autoincrement())
+  start_date    DateTime
+  year_duration Int
+  status        EHealthInsuranceCardStatus
+  id_patient    Int
+  patient       User                       @relation(fields: [id_patient], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Department {
+  id              Int             @id @default(autoincrement())
+  name            String
+  department_type EDepartmentType
+  User            User[]
+  Room            Room[]
+}
+
+model Room {
+  id            Int        @id @default(autoincrement())
+  name          String
+  room_type     ERoomType
+  price         Int
+  department    Department @relation(fields: [id_department], references: [id])
+  id_department Int
+  User          User[]
+  Bed           Bed[]
+}
+
+model Bed {
+  id      Int    @id @default(autoincrement())
+  name    String
+  id_room Int
+  room    Room   @relation(fields: [id_room], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  User    User[]
+}
+
+model MedicalRecord {
+  id                 Int                  @id @default(autoincrement())
+  import_date_time   DateTime             @default(now())
+  export_date_time   DateTime
+  id_patient         Int
+  patient            User                 @relation(fields: [id_patient], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  MedicalExamination MedicalExamination[]
+}
+
+model MedicalExamination {
+  id                            Int                            @id @default(autoincrement())
+  medical_examination_date_time DateTime                       @default(now())
+  health_condition              String
+  result                        String
+  id_medical_record             Int
+  medical_record                MedicalRecord                  @relation(fields: [id_medical_record], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ServiceRelMedicalExamination  ServiceRelMedicalExamination[]
+  Prescription                  Prescription[]
+}
+
+model Service {
+  id                           Int                            @id @default(autoincrement())
+  name                         String
+  price                        Int
+  ServiceRelMedicalExamination ServiceRelMedicalExamination[]
+}
+
+model ServiceRelMedicalExamination {
+  id                     Int                @id @default(autoincrement())
+  id_service             Int
+  service                Service            @relation(fields: [id_service], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id_medical_examination Int
+  medical_examination    MedicalExamination @relation(fields: [id_medical_examination], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  quantity               Int
+}
+
+model Medical {
+  id                     Int                      @id @default(autoincrement())
+  name                   String
+  unit                   EMedicalUnit
+  price                  Int
+  PrescriptionRelMedical PrescriptionRelMedical[]
+}
+
+model Prescription {
+  id                     Int                      @id @default(autoincrement())
+  id_medical_examination Int
+  medical_examination    MedicalExamination       @relation(fields: [id_medical_examination], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  PrescriptionRelMedical PrescriptionRelMedical[]
+}
+
+model PrescriptionRelMedical {
+  id              Int          @id @default(autoincrement())
+  id_prescription Int
+  prescription    Prescription @relation(fields: [id_prescription], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id_medical      Int
+  medical         Medical      @relation(fields: [id_medical], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  quantity        Int
+}
+
+model Payment {
+  id                Int             @id @default(autoincrement())
+  payment_date_time DateTime
+  amount            Int
+  payment_method    EPAYMENT_METHOD
+  quantity          Int             @default(1)
+}
