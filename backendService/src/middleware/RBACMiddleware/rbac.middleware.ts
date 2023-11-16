@@ -16,6 +16,7 @@ export class RBACMiddleware implements NestMiddleware {
     const token = req.headers.authorization?.split(" ")[1];
     try {
       const decodedToken: any = jwt.verify(token, jwtConstants.secret);
+      req["role"] = decodedToken.role;
       console.log("🚀 decodedToken:", decodedToken);
     } catch (error) {
       if (error.name === "TokenExpiredError") {
