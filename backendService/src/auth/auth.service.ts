@@ -11,6 +11,8 @@ export class AuthService {
     private prisma: PrismaService,
   ) {}
 
+  roles = ["ADMIN", "DOCTOR", "PHARMACIST", "NURSE", "PATIENT"];
+
   async signIn(username: string, password: string) {
     try {
       const data = await this.prisma.user.findFirst({
@@ -23,7 +25,13 @@ export class AuthService {
       }
       if (data) {
         if (data.password === password) {
-          const payload = { sub: username, username: data.password };
+          console.log("data.user_name", data.user_name);
+
+          const payload = {
+            sub: password,
+            username: data.user_name,
+            role: this.roles[data.id_role - 1],
+          };
           return {
             message: "Signed in successfully",
             data: {

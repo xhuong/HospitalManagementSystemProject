@@ -1,9 +1,4 @@
-import {
-  Module,
-  // NestModule,
-  // RequestMethod,
-  // MiddlewareConsumer,
-} from "@nestjs/common";
+import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { UsersModule } from "./users/users.module";
@@ -15,7 +10,8 @@ import { APP_INTERCEPTOR } from "@nestjs/core";
 import { ResponseInterceptor } from "./interceptors/response.interceptor";
 import { DepartmentModule } from "./department/department.module";
 import { RoomModule } from "./room/room.module";
-// import { TimeoutMiddleWare } from "./middleware/TimeoutMiddleWare/timeout.middleware";
+import { HealthInsuranceCardModule } from "./health_insurance_card/health_insurance_card.module";
+import { RBACMiddleware } from "./middleware/RBACMiddleware/rbac.middleware";
 
 @Module({
   imports: [
@@ -26,6 +22,7 @@ import { RoomModule } from "./room/room.module";
     PrismaModule,
     DepartmentModule,
     RoomModule,
+    HealthInsuranceCardModule,
   ],
   controllers: [AppController],
   providers: [
@@ -36,15 +33,8 @@ import { RoomModule } from "./room/room.module";
     },
   ],
 })
-export class AppModule {}
-
-// implements NestModule {
-//   configure(consumer: MiddlewareConsumer) {
-//     consumer
-//       .apply(TimeoutMiddleWare)
-//       .forRoutes(
-//         { path: "user", method: RequestMethod.GET },
-//         { path: "user", method: RequestMethod.POST },
-//       );
-//   }
-// }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RBACMiddleware).forRoutes("user");
+  }
+}
