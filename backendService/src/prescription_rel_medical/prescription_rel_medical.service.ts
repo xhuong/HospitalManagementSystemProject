@@ -17,24 +17,27 @@ export class PrescriptionRelMedicalService {
         data: createPrescriptionRelMedicalDto,
       });
       if (data) {
-        return {
-          data,
-          statusCode: 200,
-          message: "Create new Prescription Rel Medical successfully",
-        };
+        return response.status(200).json({
+          status: 200,
+          result: {
+            data,
+            message: "Create new Prescription Rel Medical successfully",
+          },
+        });
       } else {
-        return {
-          statusCode: 400,
-          message: "Create new Prescription Rel Medical failed",
-        };
+        return response.status(400).json({
+          status: 400,
+          result: {
+            data,
+            message: "Create new Prescription Rel Medical failed",
+          },
+        });
       }
     } catch {
-      return response.status(400).json({
-        status: 400,
-        result: {
-          message: "Something went wrong",
-        },
-      });
+      return {
+        statusCode: 400,
+        message: "Something went wrong",
+      };
     }
   }
 
