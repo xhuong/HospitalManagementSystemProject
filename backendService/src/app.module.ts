@@ -13,6 +13,7 @@ import { RoomModule } from "./room/room.module";
 import { HealthInsuranceCardModule } from "./health_insurance_card/health_insurance_card.module";
 import { RBACMiddleware } from "./middleware/RBACMiddleware/rbac.middleware";
 import { MedicalRecordModule } from "./medical_record/medical_record.module";
+import { MedicalModule } from "./medical/medical.module";
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { MedicalRecordModule } from "./medical_record/medical_record.module";
     RoomModule,
     HealthInsuranceCardModule,
     MedicalRecordModule,
+    MedicalModule,
   ],
   controllers: [AppController],
   providers: [
@@ -37,6 +39,6 @@ import { MedicalRecordModule } from "./medical_record/medical_record.module";
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RBACMiddleware).forRoutes("user");
+    consumer.apply(RBACMiddleware).forRoutes("user", "medical");
   }
 }
