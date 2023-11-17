@@ -17,7 +17,8 @@ import { MedicalModule } from "./medical/medical.module";
 import { PrescriptionModule } from "./prescription/prescription.module";
 import { ServiceModule } from "./service/service.module";
 import { BedModule } from "./bed/bed.module";
-import { MedicalExaminationModule } from './medical_examination/medical_examination.module';
+import { MedicalExaminationModule } from "./medical_examination/medical_examination.module";
+import { ServiceRelMedicalExaminationModule } from "./service_rel_medical_examination/service_rel_medical_examination.module";
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { MedicalExaminationModule } from './medical_examination/medical_examinat
     ServiceModule,
     BedModule,
     MedicalExaminationModule,
+    ServiceRelMedicalExaminationModule,
   ],
   controllers: [AppController],
   providers: [
@@ -56,6 +58,7 @@ export class AppModule implements NestModule {
         "service",
         "bed",
         "health-insurance-card",
+        "service-rel-medical-examination",
       );
   }
 }
