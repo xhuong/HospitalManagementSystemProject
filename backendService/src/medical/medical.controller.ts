@@ -26,8 +26,11 @@ export class MedicalController {
   @UseGuards(RolesGuard)
   @Post()
   @Roles(Role.DOCTOR, Role.PHARMACIST)
-  create(@Body() createMedicalDto: CreateMedicalDto) {
-    return this.medicalService.create(createMedicalDto);
+  create(
+    @Body() createMedicalDto: CreateMedicalDto,
+    @Res() response: Response,
+  ) {
+    return this.medicalService.create(createMedicalDto, response);
   }
 
   @UseGuards(AuthGuard)
@@ -39,17 +42,21 @@ export class MedicalController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.medicalService.findOne(+id);
+  findOne(@Param("id") id: string, @Res() response: Response) {
+    return this.medicalService.findOne(+id, response);
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateMedicalDto: UpdateMedicalDto) {
-    return this.medicalService.update(+id, updateMedicalDto);
+  update(
+    @Param("id") id: string,
+    @Body() updateMedicalDto: UpdateMedicalDto,
+    @Res() response: Response,
+  ) {
+    return this.medicalService.update(+id, updateMedicalDto, response);
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.medicalService.remove(+id);
+  remove(@Param("id") id: string, @Res() response: Response) {
+    return this.medicalService.remove(+id, response);
   }
 }

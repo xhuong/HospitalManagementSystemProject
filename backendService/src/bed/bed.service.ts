@@ -1,27 +1,27 @@
 import { Injectable } from "@nestjs/common";
-import { CreateMedicalDto } from "./dto/create-medical.dto";
-import { UpdateMedicalDto } from "./dto/update-medical.dto";
+import { CreateBedDto } from "./dto/create-bed.dto";
+import { UpdateBedDto } from "./dto/update-bed.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Response } from "express";
 
 @Injectable()
-export class MedicalService {
+export class BedService {
   constructor(private readonly prisma: PrismaService) {}
-  async create(createMedicalDto: CreateMedicalDto, response: Response) {
+  async create(createBedDto: CreateBedDto, response: Response) {
     try {
-      const data = await this.prisma.medical.create({
-        data: createMedicalDto,
+      const data = await this.prisma.bed.create({
+        data: createBedDto,
       });
       if (data) {
         return {
           data,
           statusCode: 200,
-          message: "Create new medical successfully",
+          message: "Create new bed successfully",
         };
       } else {
         return {
           statusCode: 400,
-          message: "Create new medical failed",
+          message: "Create new bed failed",
         };
       }
     } catch {
@@ -36,12 +36,12 @@ export class MedicalService {
 
   async findAll(response: Response) {
     try {
-      const data = await this.prisma.medical.findMany();
+      const data = await this.prisma.bed.findMany();
       if (data.length) {
         return response.status(200).json({
           status: 200,
           result: {
-            message: "Get all medical successfully",
+            message: "Get all bed successfully",
             data,
           },
         });
@@ -50,7 +50,7 @@ export class MedicalService {
           status: 200,
           result: {
             data,
-            message: "List medical record is empty",
+            message: "List bed record is empty",
           },
         });
       }
@@ -66,14 +66,14 @@ export class MedicalService {
 
   async findOne(id: number, response: Response) {
     try {
-      const data = this.prisma.medical.findFirst({
+      const data = this.prisma.bed.findFirst({
         where: { id },
       });
       if (data) {
         return response.status(200).json({
           status: 200,
           result: {
-            message: `Get medical ${id} successfully`,
+            message: `Get bed ${id} successfully`,
             data,
           },
         });
@@ -81,7 +81,7 @@ export class MedicalService {
         return response.status(200).json({
           status: 200,
           result: {
-            message: `Medical ${id} not found`,
+            message: `Bed ${id} not found`,
           },
         });
       }
@@ -95,20 +95,16 @@ export class MedicalService {
     }
   }
 
-  async update(
-    id: number,
-    updateMedicalDto: UpdateMedicalDto,
-    response: Response,
-  ) {
+  async update(id: number, updateBedDto: UpdateBedDto, response: Response) {
     try {
-      const data = await this.prisma.medical.update({
+      const data = await this.prisma.bed.update({
         where: { id },
-        data: updateMedicalDto,
+        data: updateBedDto,
       });
       return response.status(200).json({
         status: 200,
         result: {
-          message: `Update medical with id ${id} successfully`,
+          message: `Update bed with id ${id} successfully`,
           data,
         },
       });
@@ -124,11 +120,11 @@ export class MedicalService {
 
   async remove(id: number, response: Response) {
     try {
-      await this.prisma.medical.delete({ where: { id } });
+      await this.prisma.bed.delete({ where: { id } });
       return response.status(200).json({
         status: 200,
         result: {
-          message: `Delete medical with id ${id} successfully`,
+          message: `Delete bed with id ${id} successfully`,
         },
       });
     } catch {
