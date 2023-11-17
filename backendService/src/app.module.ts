@@ -12,6 +12,7 @@ import { DepartmentModule } from "./department/department.module";
 import { RoomModule } from "./room/room.module";
 import { HealthInsuranceCardModule } from "./health_insurance_card/health_insurance_card.module";
 import { RBACMiddleware } from "./middleware/RBACMiddleware/rbac.middleware";
+import { MedicalRecordModule } from "./medical_record/medical_record.module";
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { RBACMiddleware } from "./middleware/RBACMiddleware/rbac.middleware";
     DepartmentModule,
     RoomModule,
     HealthInsuranceCardModule,
+    MedicalRecordModule,
   ],
   controllers: [AppController],
   providers: [
