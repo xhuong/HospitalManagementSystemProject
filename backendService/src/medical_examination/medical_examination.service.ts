@@ -1,31 +1,30 @@
 import { Injectable } from "@nestjs/common";
-import { CreateHealthInsuranceCardDto } from "./dto/create-health_insurance_card.dto";
-import { UpdateHealthInsuranceCardDto } from "./dto/update-health_insurance_card.dto";
+import { CreateMedicalExaminationDto } from "./dto/create-medical_examination.dto";
+import { UpdateMedicalExaminationDto } from "./dto/update-medical_examination.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Response } from "express";
 
 @Injectable()
-export class HealthInsuranceCardService {
+export class MedicalExaminationService {
   constructor(private prisma: PrismaService) {}
-
   async create(
-    createHealthInsuranceCardDto: CreateHealthInsuranceCardDto,
+    createMedicalExaminationDto: CreateMedicalExaminationDto,
     response: Response,
   ) {
     try {
-      const data = await this.prisma.healthInsuranceCard.create({
-        data: createHealthInsuranceCardDto,
+      const data = await this.prisma.medicalExamination.create({
+        data: createMedicalExaminationDto,
       });
       if (data) {
         return {
           data,
           statusCode: 200,
-          message: "Create new health insurance card successfully",
+          message: "Create new Medical Examination successfully",
         };
       } else {
         return {
           statusCode: 400,
-          message: "Create new health insurance card failed",
+          message: "Create new Medical Examination failed",
         };
       }
     } catch {
@@ -40,12 +39,12 @@ export class HealthInsuranceCardService {
 
   async findAll(response: Response) {
     try {
-      const data = await this.prisma.healthInsuranceCard.findMany();
+      const data = await this.prisma.medicalExamination.findMany();
       if (data.length) {
         return response.status(200).json({
           status: 200,
           result: {
-            message: "Get all health insurance card successfully",
+            message: "Get all Medical Examination successfully",
             data,
           },
         });
@@ -54,7 +53,7 @@ export class HealthInsuranceCardService {
           status: 200,
           result: {
             data,
-            message: "List health insurance card record is empty",
+            message: "List Medical Examination record is empty",
           },
         });
       }
@@ -70,14 +69,14 @@ export class HealthInsuranceCardService {
 
   async findOne(id: number, response: Response) {
     try {
-      const data = this.prisma.healthInsuranceCard.findFirst({
+      const data = this.prisma.medicalExamination.findFirst({
         where: { id },
       });
       if (data) {
         return response.status(200).json({
           status: 200,
           result: {
-            message: `Get health insurance card ${id} successfully`,
+            message: `Get Medical Examination ${id} successfully`,
             data,
           },
         });
@@ -85,7 +84,7 @@ export class HealthInsuranceCardService {
         return response.status(200).json({
           status: 200,
           result: {
-            message: `Health insurance card ${id} not found`,
+            message: `Medical Examination ${id} not found`,
           },
         });
       }
@@ -101,18 +100,18 @@ export class HealthInsuranceCardService {
 
   async update(
     id: number,
-    updateHealthInsuranceCardDto: UpdateHealthInsuranceCardDto,
+    updateMedicalExaminationDto: UpdateMedicalExaminationDto,
     response: Response,
   ) {
     try {
-      const data = await this.prisma.healthInsuranceCard.update({
+      const data = await this.prisma.medicalExamination.update({
         where: { id },
-        data: updateHealthInsuranceCardDto,
+        data: updateMedicalExaminationDto,
       });
       return response.status(200).json({
         status: 200,
         result: {
-          message: `Update health insurance card with id ${id} successfully`,
+          message: `Update Medical Examination with id ${id} successfully`,
           data,
         },
       });
@@ -128,11 +127,11 @@ export class HealthInsuranceCardService {
 
   async remove(id: number, response: Response) {
     try {
-      await this.prisma.healthInsuranceCard.delete({ where: { id } });
+      await this.prisma.medicalExamination.delete({ where: { id } });
       return response.status(200).json({
         status: 200,
         result: {
-          message: `Delete health insurance card with id ${id} successfully`,
+          message: `Delete Medical Examination with id ${id} successfully`,
         },
       });
     } catch {

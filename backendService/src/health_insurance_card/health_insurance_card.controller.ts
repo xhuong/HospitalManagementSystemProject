@@ -28,13 +28,19 @@ export class HealthInsuranceCardController {
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   @Post()
-  create(@Body() createHealthInsuranceCardDto: CreateHealthInsuranceCardDto) {
-    return this.healthInsuranceCardService.create(createHealthInsuranceCardDto);
+  create(
+    @Body() createHealthInsuranceCardDto: CreateHealthInsuranceCardDto,
+    @Res() response: Response,
+  ) {
+    return this.healthInsuranceCardService.create(
+      createHealthInsuranceCardDto,
+      response,
+    );
   }
 
   @UseGuards(AuthGuard)
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.DOCTOR)
   @Get()
   findAll(@Res() response: Response) {
     return this.healthInsuranceCardService.findAll(response);
@@ -44,8 +50,8 @@ export class HealthInsuranceCardController {
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.healthInsuranceCardService.findOne(+id);
+  findOne(@Param("id") id: string, @Res() response: Response) {
+    return this.healthInsuranceCardService.findOne(+id, response);
   }
 
   @UseGuards(AuthGuard)
@@ -55,10 +61,12 @@ export class HealthInsuranceCardController {
   update(
     @Param("id") id: string,
     @Body() updateHealthInsuranceCardDto: UpdateHealthInsuranceCardDto,
+    @Res() response: Response,
   ) {
     return this.healthInsuranceCardService.update(
       +id,
       updateHealthInsuranceCardDto,
+      response,
     );
   }
 
@@ -66,7 +74,7 @@ export class HealthInsuranceCardController {
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.healthInsuranceCardService.remove(+id);
+  remove(@Param("id") id: string, @Res() response: Response) {
+    return this.healthInsuranceCardService.remove(+id, response);
   }
 }
