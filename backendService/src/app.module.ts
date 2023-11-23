@@ -1,9 +1,4 @@
-import {
-  Module,
-  // NestModule,
-  // RequestMethod,
-  // MiddlewareConsumer,
-} from "@nestjs/common";
+import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { UsersModule } from "./users/users.module";
@@ -15,7 +10,16 @@ import { APP_INTERCEPTOR } from "@nestjs/core";
 import { ResponseInterceptor } from "./interceptors/response.interceptor";
 import { DepartmentModule } from "./department/department.module";
 import { RoomModule } from "./room/room.module";
-// import { TimeoutMiddleWare } from "./middleware/TimeoutMiddleWare/timeout.middleware";
+import { HealthInsuranceCardModule } from "./health_insurance_card/health_insurance_card.module";
+import { RBACMiddleware } from "./middleware/RBACMiddleware/rbac.middleware";
+import { MedicalRecordModule } from "./medical_record/medical_record.module";
+import { MedicalModule } from "./medical/medical.module";
+import { PrescriptionModule } from "./prescription/prescription.module";
+import { ServiceModule } from "./service/service.module";
+import { BedModule } from "./bed/bed.module";
+import { MedicalExaminationModule } from "./medical_examination/medical_examination.module";
+import { ServiceRelMedicalExaminationModule } from "./service_rel_medical_examination/service_rel_medical_examination.module";
+import { PrescriptionRelMedicalModule } from "./prescription_rel_medical/prescription_rel_medical.module";
 
 @Module({
   imports: [
@@ -26,6 +30,15 @@ import { RoomModule } from "./room/room.module";
     PrismaModule,
     DepartmentModule,
     RoomModule,
+    HealthInsuranceCardModule,
+    MedicalRecordModule,
+    MedicalModule,
+    PrescriptionModule,
+    ServiceModule,
+    BedModule,
+    MedicalExaminationModule,
+    ServiceRelMedicalExaminationModule,
+    PrescriptionRelMedicalModule,
   ],
   controllers: [AppController],
   providers: [
@@ -36,15 +49,19 @@ import { RoomModule } from "./room/room.module";
     },
   ],
 })
-export class AppModule {}
-
-// implements NestModule {
-//   configure(consumer: MiddlewareConsumer) {
-//     consumer
-//       .apply(TimeoutMiddleWare)
-//       .forRoutes(
-//         { path: "user", method: RequestMethod.GET },
-//         { path: "user", method: RequestMethod.POST },
-//       );
-//   }
-// }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RBACMiddleware)
+      .forRoutes(
+        "user",
+        "medical",
+        "prescription",
+        "service",
+        "bed",
+        "health-insurance-card",
+        "service-rel-medical-examination",
+        "prescription-rel-medical",
+      );
+  }
+}
