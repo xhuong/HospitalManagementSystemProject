@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_hosp/components/default_button.dart';
-import 'package:smart_hosp/components/default_button_white.dart';
 import 'package:smart_hosp/constants.dart';
-import 'package:smart_hosp/routes.dart';
-import 'package:smart_hosp/screens/sign_in/sign_in_screen.dart';
-import 'package:smart_hosp/screens/splash/components/splash_content.dart';
-import 'package:smart_hosp/screens/splash/components/splash_item.dart';
-import 'package:smart_hosp/size_config.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -16,95 +9,57 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  int currentPage = 0;
-  List<SplashItem> splashData = [
-    SplashItem(
-      title: "Đặt lịch dễ dàng",
-      text: "Chỉ cần dành ra 3 phút để có ngay một cuộc hẹn khám \nvới đội ngũ bác sĩ giỏi đến từ Bệnh viện gia đình.",
-      image: "assets/images/splash_1.png",
-    ),
-    SplashItem(
-      title: "Theo dõi sức khỏe",
-      text: "Cho phép người dùng quản lý sức khỏe một \ncách thường xuyên, góp phần phòng ngừa bệnh tật.",
-      image: "assets/images/splash_2.png",
-    ),
-    SplashItem(
-      title: "Tin tức y tế",
-      text: "Mọi tin tức trong và ngoài nước về lĩnh vực y tế được cập \nnhật một cách sớm nhất.",
-      image: "assets/images/splash_3.png",
-    ),
-  ];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 80,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Background Image with Gradient
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/splash_1.png'),
+                fit: BoxFit.cover,
+              ),
             ),
-            Expanded(
-                flex: 3,
-                child: PageView.builder(
-                  onPageChanged: (value) {
-                    setState(() {
-                      currentPage = value;
-                    });
-                  },
-                  itemCount: splashData.length,
-                  itemBuilder: (context, index) => SplashContent(
-                    title: splashData[index].title.toString(),
-                    image: splashData[index].image.toString(),
-                    text: splashData[index].text.toString(),
+          ),
+          // Gradient Layer
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromRGBO(20, 121, 255, 0.2),
+                  Color(0xFF1479FF),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          // Centered Text
+          const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'SmartHOSP',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 48.0,
+                    fontWeight: FontWeight.w700,
                   ),
-                )),
-            Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-                  child: Column(
-                    children: [
-                      Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(splashData.length, (index) => buildDot(index: index)),
-                      ),
-                      const Spacer(
-                        flex: 3,
-                      ),
-                      DefaultButton(
-                        text: 'Tạo tài khoản',
-                        press: () {
-                          Navigator.pushNamed(context, SignInScreen.routeName);
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      DefaultButtonWhite(
-                        text: 'Đăng nhập',
-                        press: () {
-                          Navigator.pushNamed(context, SignInScreen.routeName);
-                        },
-                      ),
-                      const Spacer()
-                    ],
-                  ),
-                ))
-          ],
-        ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Ứng dụng đặt lịch khám bệnh',
+                  style: TextStyle(color: Colors.white, fontSize: 14.0, fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-    );
-  }
-
-  @override
-  AnimatedContainer buildDot({required int index}) {
-    return AnimatedContainer(
-      duration: kAnimationDuration,
-      margin: EdgeInsets.only(right: 5),
-      height: 6,
-      width: currentPage == index ? 20 : 6,
-      decoration: BoxDecoration(
-          color: currentPage == index ? kPrimaryColor : Color(0xFFD8D8D8), borderRadius: BorderRadius.circular(3)),
     );
   }
 }
