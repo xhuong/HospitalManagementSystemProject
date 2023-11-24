@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smart_hosp/constants.dart';
 import 'package:smart_hosp/size_config.dart';
 
-class SplashContent extends StatelessWidget {
-  const SplashContent({
+class OnboardingContent extends StatelessWidget {
+  const OnboardingContent({
     super.key,
     required this.title,
     required this.text,

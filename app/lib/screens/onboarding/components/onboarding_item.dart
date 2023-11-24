@@ -1,9 +1,9 @@
-class SplashItem {
+class OnboardingItem {
   String title;
   String text;
   String image;
 
-  SplashItem({
+  OnboardingItem({
     required this.title,
     required this.text,
     required this.image,

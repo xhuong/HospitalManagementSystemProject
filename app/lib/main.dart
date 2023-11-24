@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_hosp/routes.dart';
+import 'package:smart_hosp/screens/onboarding/onboarding_screen.dart';
 import 'package:smart_hosp/screens/splash/splash_screen.dart';
 import 'package:smart_hosp/theme.dart';
 
