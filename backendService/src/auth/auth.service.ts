@@ -13,10 +13,10 @@ export class AuthService {
 
   roles = ["ADMIN", "DOCTOR", "PHARMACIST", "NURSE", "PATIENT"];
 
-  async signIn(username: string, password: string) {
+  async signIn(phoneNumber: string, password: string) {
     try {
       const data = await this.prisma.user.findFirst({
-        where: { user_name: username },
+        where: { phone_number: phoneNumber },
       });
       if (!data) {
         return {

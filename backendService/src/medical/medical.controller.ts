@@ -36,7 +36,7 @@ export class MedicalController {
   @UseGuards(AuthGuard)
   @UseGuards(RolesGuard)
   @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  @Roles(Role.DOCTOR, Role.PHARMACIST, Role.ADMIN)
   findAll(@Res() response: Response) {
     return this.medicalService.findAll(response);
   }
