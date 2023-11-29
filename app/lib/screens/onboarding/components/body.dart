@@ -3,6 +3,7 @@ import 'package:smart_hosp/components/default_button.dart';
 import 'package:smart_hosp/components/default_button_white.dart';
 import 'package:smart_hosp/constants.dart';
 import 'package:smart_hosp/routes.dart';
+import 'package:smart_hosp/screens/register/register_screen.dart';
 import 'package:smart_hosp/screens/sign_in/sign_in_screen.dart';
 import 'package:smart_hosp/screens/onboarding/components/onboarding_content.dart';
 import 'package:smart_hosp/screens/onboarding/components/onboarding_item.dart';
@@ -76,7 +77,7 @@ class _BodyState extends State<Body> {
                       DefaultButton(
                         text: 'Tạo tài khoản',
                         press: () {
-                          Navigator.pushNamed(context, SignInScreen.routeName);
+                          Navigator.pushNamed(context, RegisterScreen.routeName);
                         },
                       ),
                       const SizedBox(height: 8),

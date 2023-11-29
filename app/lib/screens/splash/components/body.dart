@@ -19,7 +19,7 @@ class _BodyState extends State<Body> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/splash_1.png'),
+                image: AssetImage('assets/images/splash_background.png'),
                 fit: BoxFit.cover,
               ),
             ),
