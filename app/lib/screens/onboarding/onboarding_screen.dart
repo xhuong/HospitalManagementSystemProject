@@ -11,6 +11,7 @@ class OnboardingScreen extends StatelessWidget {
     //You have to call it on your starting screen
     SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Body(),
     );
   }
