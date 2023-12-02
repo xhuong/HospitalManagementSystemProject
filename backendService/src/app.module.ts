@@ -55,7 +55,9 @@ export class AppModule implements NestModule {
       .apply(RBACMiddleware)
       .forRoutes(
         "user",
+        "room",
         "medical",
+        "medical-record",
         "prescription",
         "service",
         "bed",

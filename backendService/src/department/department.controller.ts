@@ -19,29 +19,29 @@ import { Role } from "src/common/roles";
 export class DepartmentController {
   constructor(private readonly departmentService: DepartmentService) {}
 
-  @UseGuards(AuthGuard)
-  @Roles(Role.ADMIN)
+  // @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
   @Post()
   create(@Body() createDepartmentDto: CreateDepartmentDto) {
     return this.departmentService.create(createDepartmentDto);
   }
 
-  @UseGuards(AuthGuard)
-  @Roles(Role.ADMIN)
+  // @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.departmentService.findAll();
   }
 
-  @UseGuards(AuthGuard)
-  @Roles(Role.ADMIN)
+  // @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.departmentService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
-  @Roles(Role.ADMIN)
+  // @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
   @Patch(":id")
   update(
     @Param("id") id: string,
@@ -50,8 +50,8 @@ export class DepartmentController {
     return this.departmentService.update(+id, updateDepartmentDto);
   }
 
-  @UseGuards(AuthGuard)
-  @Roles(Role.ADMIN)
+  // @UseGuards(AuthGuard)
+  // @Roles(Role.ADMIN)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.departmentService.remove(+id);

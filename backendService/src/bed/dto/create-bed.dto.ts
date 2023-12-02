@@ -8,8 +8,4 @@ export class CreateBedDto {
   @IsNumber()
   @IsNotEmpty()
   id_room: number;
-
-  @IsNumber()
-  @IsNotEmpty()
-  price: number;
 }

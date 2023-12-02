@@ -2,12 +2,13 @@ import { Injectable } from "@nestjs/common";
 import { CreateRoleDto } from "./dto/create-role.dto";
 import { UpdateRoleDto } from "./dto/update-role.dto";
 import { PrismaService } from "src/prisma/prisma.service";
+import { Response } from "express";
 
 @Injectable()
 export class RoleService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createRoleDto: CreateRoleDto) {
+  async create(createRoleDto: CreateRoleDto, response: Response) {
     try {
       const isExitRole = await this.prisma.role.findFirst({
         where: {
@@ -15,16 +16,20 @@ export class RoleService {
         },
       });
       if (isExitRole) {
-        return {
-          statusCode: 400,
-          message: "Role is exites",
-        };
+        return response.status(201).json({
+          status: 201,
+          result: {
+            message: "Role is exites",
+          },
+        });
       }
       const data = await this.prisma.role.create({ data: createRoleDto });
-      return {
-        message: "Add new role successfully",
-        data,
-      };
+      return response.status(200).json({
+        status: 200,
+        result: {
+          data,
+        },
+      });
     } catch (err) {
       console.log(err);
     }

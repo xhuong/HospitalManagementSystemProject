@@ -22,10 +22,9 @@ import { Roles } from "src/common/roles/roles.decorator";
 export class MedicalController {
   constructor(private readonly medicalService: MedicalService) {}
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Post()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
   create(
     @Body() createMedicalDto: CreateMedicalDto,
     @Res() response: Response,
@@ -33,10 +32,9 @@ export class MedicalController {
     return this.medicalService.create(createMedicalDto, response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST, Role.ADMIN)
   @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST, Role.ADMIN)
   findAll(@Res() response: Response) {
     return this.medicalService.findAll(response);
   }

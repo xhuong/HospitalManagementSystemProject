@@ -121,7 +121,7 @@ model Bed {
 model MedicalRecord {
   id                 Int                  @id @default(autoincrement())
   import_date_time   DateTime             @default(now())
-  export_date_time   DateTime
+  export_date_time   DateTime?
   id_patient         Int
   patient            User                 @relation(fields: [id_patient], references: [id], onDelete: Cascade, onUpdate: Cascade)
   MedicalExamination MedicalExamination[]

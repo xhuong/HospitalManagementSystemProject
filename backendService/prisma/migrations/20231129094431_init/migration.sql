@@ -71,7 +71,7 @@ CREATE TABLE `Bed` (
 CREATE TABLE `MedicalRecord` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `import_date_time` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `export_date_time` DATETIME(3) NOT NULL,
+    `export_date_time` DATETIME(3) NULL,
     `id_patient` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)

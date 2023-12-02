@@ -22,8 +22,7 @@ import { Response } from "express";
 export class PrescriptionController {
   constructor(private readonly prescriptionService: PrescriptionService) {}
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Post()
   @Roles(Role.DOCTOR, Role.PHARMACIST)
   create(
@@ -33,15 +32,13 @@ export class PrescriptionController {
     return this.prescriptionService.create(createPrescriptionDto, response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Get()
   @Roles(Role.DOCTOR)
   findAll(@Res() response: Response) {
     return this.prescriptionService.findAll(response);
   }
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Get()
   @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Get(":id")
@@ -49,8 +46,7 @@ export class PrescriptionController {
     return this.prescriptionService.findOne(+id, response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Get()
   @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Patch(":id")
@@ -66,8 +62,7 @@ export class PrescriptionController {
     );
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Get()
   @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Delete(":id")

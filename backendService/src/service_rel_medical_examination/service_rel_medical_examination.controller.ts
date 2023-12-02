@@ -24,10 +24,9 @@ export class ServiceRelMedicalExaminationController {
     private readonly serviceRelMedicalExaminationService: ServiceRelMedicalExaminationService,
   ) {}
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Post()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
   create(
     @Body()
     createServiceRelMedicalExaminationDto: CreateServiceRelMedicalExaminationDto,
@@ -39,27 +38,21 @@ export class ServiceRelMedicalExaminationController {
     );
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   findAll(@Res() response: Response) {
     return this.serviceRelMedicalExaminationService.findAll(response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Get(":id")
   findOne(@Param("id") id: string, response: Response) {
     return this.serviceRelMedicalExaminationService.findOne(+id, response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Patch(":id")
   update(
     @Param("id") id: string,
@@ -74,10 +67,8 @@ export class ServiceRelMedicalExaminationController {
     );
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Delete(":id")
   remove(@Param("id") id: string, response: Response) {
     return this.serviceRelMedicalExaminationService.remove(+id, response);

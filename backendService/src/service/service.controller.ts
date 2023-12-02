@@ -22,24 +22,21 @@ import { RolesGuard } from "src/common/roles/roles.guard";
 export class ServiceController {
   constructor(private readonly serviceService: ServiceService) {}
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Post()
   @Roles(Role.DOCTOR, Role.PHARMACIST)
   create(@Body() createServiceDto: CreateServiceDto, response: Response) {
     return this.serviceService.create(createServiceDto, response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Get()
   @Roles(Role.DOCTOR, Role.PHARMACIST)
   findAll(@Res() response: Response) {
     return this.serviceService.findAll(response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Get()
   @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Get(":id")
@@ -47,8 +44,7 @@ export class ServiceController {
     return this.serviceService.findOne(+id, response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Get()
   @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Patch(":id")
@@ -60,8 +56,7 @@ export class ServiceController {
     return this.serviceService.update(+id, updateServiceDto, response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Get()
   @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Delete(":id")

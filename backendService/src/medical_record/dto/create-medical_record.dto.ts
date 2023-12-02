@@ -1,4 +1,9 @@
-import { IsDateString, IsNotEmpty, IsNumber } from "class-validator";
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+} from "class-validator";
 
 export class CreateMedicalRecordDto {
   @IsNumber()
@@ -9,7 +14,7 @@ export class CreateMedicalRecordDto {
   @IsNotEmpty()
   import_date_time: Date;
 
+  @IsOptional()
   @IsDateString()
-  @IsNotEmpty()
-  export_date_time: Date;
+  export_date_time?: Date;
 }

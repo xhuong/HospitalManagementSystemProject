@@ -20,41 +20,36 @@ import { Role } from "src/common/roles";
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Post()
   create(@Body() createRoomDto: CreateRoomDto) {
     return this.roomService.create(createRoomDto);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.roomService.findAll();
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.roomService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN)
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateRoomDto: UpdateRoomDto) {
     return this.roomService.update(+id, updateRoomDto);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.roomService.remove(+id);

@@ -22,35 +22,29 @@ import { Roles } from "src/common/roles/roles.decorator";
 export class BedController {
   constructor(private readonly bedService: BedService) {}
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Post()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
   create(@Body() createBedDto: CreateBedDto, response: Response) {
     return this.bedService.create(createBedDto, response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
   findAll(@Res() response: Response) {
     return this.bedService.findAll(response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Get(":id")
   findOne(@Param("id") id: string, response: Response) {
     return this.bedService.findOne(+id, response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Patch(":id")
   update(
     @Param("id") id: string,
@@ -60,10 +54,8 @@ export class BedController {
     return this.bedService.update(+id, updateBedDto, response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Delete(":id")
   remove(@Param("id") id: string, response: Response) {
     return this.bedService.remove(+id, response);

@@ -22,37 +22,29 @@ import { Response } from "express";
 export class MedicalRecordController {
   constructor(private medicalRecordService: MedicalRecordService) {}
 
-  // @UseGuards(AuthGuard)
-  // @UseGuards(RolesGuard)
-  // @Roles(Role.DOCTOR)
-  // @Roles(Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Post()
   create(@Body() createMedicalRecordDto: CreateMedicalRecordDto) {
     return this.medicalRecordService.create(createMedicalRecordDto);
   }
 
-  // @UseGuards(AuthGuard)
-  // @UseGuards(RolesGuard)
-  // @Roles(Role.DOCTOR)
-  // @Roles(Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Get()
   findAll(@Res() response: Response) {
     return this.medicalRecordService.findAll(response);
   }
 
-  // @UseGuards(AuthGuard)
-  // @UseGuards(RolesGuard)
-  // @Roles(Role.DOCTOR)
-  // @Roles(Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.medicalRecordService.findOne(+id);
   }
 
-  // @UseGuards(AuthGuard)
-  // @UseGuards(RolesGuard)
-  // @Roles(Role.DOCTOR)
-  // @Roles(Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Patch(":id")
   update(
     @Param("id") id: string,
@@ -61,10 +53,8 @@ export class MedicalRecordController {
     return this.medicalRecordService.update(+id, updateMedicalRecordDto);
   }
 
-  // @UseGuards(AuthGuard)
-  // @UseGuards(RolesGuard)
-  // @Roles(Role.DOCTOR)
-  // @Roles(Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.medicalRecordService.remove(+id);
