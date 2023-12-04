@@ -22,7 +22,7 @@ import { RolesGuard } from "src/common/roles/roles.guard";
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post("test")
+  @Post("view-history")
   getServiceCostForMedicalExamination(
     @Body() requestBody: any,
     @Res() response: Response,
