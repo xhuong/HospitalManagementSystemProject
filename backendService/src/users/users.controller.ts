@@ -22,18 +22,29 @@ import { RolesGuard } from "src/common/roles/roles.guard";
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Post("test")
+  getServiceCostForMedicalExamination(
+    @Body() requestBody: any,
+    @Res() response: Response,
+  ) {
+    return this.usersService.getServicesAndPrescriptionOfMedicalExaminationByPatientById(
+      requestBody.idUser,
+      response,
+    );
+  }
+
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.ADMIN)
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(@Body() createUserDto: CreateUserDto, @Res() response: Response) {
+    return this.usersService.create(createUserDto, response);
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.ADMIN)
   @Post(":username")
-  findOne(@Param("username") username: string) {
-    return this.usersService.findOne(username);
+  findOne(@Param("username") username: string, @Res() response: Response) {
+    return this.usersService.findOne(username, response);
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
@@ -46,14 +57,18 @@ export class UsersController {
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.ADMIN)
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  update(
+    @Param("id") id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Res() response: Response,
+  ) {
+    return this.usersService.update(+id, updateUserDto, response);
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.ADMIN)
   @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param("id") id: string, @Res() response: Response) {
+    return this.usersService.remove(+id, response);
   }
 }

@@ -15,24 +15,17 @@ export class MedicalExaminationService {
       const data = await this.prisma.medicalExamination.create({
         data: createMedicalExaminationDto,
       });
-      if (data) {
-        return {
+      return response.status(200).json({
+        status: 200,
+        message: "Create new Medical Examination successfully",
+        result: {
           data,
-          statusCode: 200,
-          message: "Create new Medical Examination successfully",
-        };
-      } else {
-        return {
-          statusCode: 400,
-          message: "Create new Medical Examination failed",
-        };
-      }
-    } catch {
+        },
+      });
+    } catch (error) {
       return response.status(400).json({
         status: 400,
-        result: {
-          message: "Something went wrong",
-        },
+        message: error,
       });
     }
   }
@@ -43,26 +36,24 @@ export class MedicalExaminationService {
       if (data.length) {
         return response.status(200).json({
           status: 200,
+          message: "Get all Medical Examination successfully",
           result: {
-            message: "Get all Medical Examination successfully",
             data,
           },
         });
       } else {
         return response.status(200).json({
           status: 200,
+          message: "List Medical Examination record is empty",
           result: {
             data,
-            message: "List Medical Examination record is empty",
           },
         });
       }
-    } catch {
+    } catch (error) {
       return response.status(400).json({
         status: 400,
-        result: {
-          message: "Something went wrong",
-        },
+        message: error,
       });
     }
   }
@@ -75,25 +66,21 @@ export class MedicalExaminationService {
       if (data) {
         return response.status(200).json({
           status: 200,
+          message: `Get Medical Examination ${id} successfully`,
           result: {
-            message: `Get Medical Examination ${id} successfully`,
             data,
           },
         });
       } else {
-        return response.status(200).json({
-          status: 200,
-          result: {
-            message: `Medical Examination ${id} not found`,
-          },
+        return response.status(401).json({
+          status: 401,
+          message: `Medical Examination ${id} not found`,
         });
       }
-    } catch {
+    } catch (error) {
       return response.status(400).json({
         status: 400,
-        result: {
-          message: `Something went wrong`,
-        },
+        message: error,
       });
     }
   }
@@ -110,17 +97,15 @@ export class MedicalExaminationService {
       });
       return response.status(200).json({
         status: 200,
+        message: `Update Medical Examination with id ${id} successfully`,
         result: {
-          message: `Update Medical Examination with id ${id} successfully`,
           data,
         },
       });
-    } catch {
+    } catch (error) {
       return response.status(400).json({
         status: 400,
-        result: {
-          message: `Something went wrong`,
-        },
+        message: error,
       });
     }
   }
@@ -130,16 +115,12 @@ export class MedicalExaminationService {
       await this.prisma.medicalExamination.delete({ where: { id } });
       return response.status(200).json({
         status: 200,
-        result: {
-          message: `Delete Medical Examination with id ${id} successfully`,
-        },
+        message: `Delete Medical Examination with id ${id} successfully`,
       });
-    } catch {
+    } catch (error) {
       return response.status(400).json({
         status: 400,
-        result: {
-          message: `Something went wrong`,
-        },
+        message: error,
       });
     }
   }

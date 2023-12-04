@@ -24,13 +24,12 @@ export class PrescriptionRelMedicalController {
     private readonly prescriptionRelMedicalService: PrescriptionRelMedicalService,
   ) {}
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Post()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   create(
     @Body() createPrescriptionRelMedicalDto: CreatePrescriptionRelMedicalDto,
-    response: Response,
+    @Res() response: Response,
   ) {
     return this.prescriptionRelMedicalService.create(
       createPrescriptionRelMedicalDto,
@@ -38,32 +37,27 @@ export class PrescriptionRelMedicalController {
     );
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
   findAll(@Res() response: Response) {
     return this.prescriptionRelMedicalService.findAll(response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Get(":id")
-  findOne(@Param("id") id: string, response: Response) {
+  findOne(@Param("id") id: string, @Res() response: Response) {
     return this.prescriptionRelMedicalService.findOne(+id, response);
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Patch(":id")
   update(
     @Param("id") id: string,
     @Body() updatePrescriptionRelMedicalDto: UpdatePrescriptionRelMedicalDto,
-    response: Response,
+    @Res() response: Response,
   ) {
     return this.prescriptionRelMedicalService.update(
       +id,
@@ -72,12 +66,11 @@ export class PrescriptionRelMedicalController {
     );
   }
 
-  @UseGuards(AuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(AuthGuard, RolesGuard)
   @Get()
   @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Delete(":id")
-  remove(@Param("id") id: string, response: Response) {
+  remove(@Param("id") id: string, @Res() response: Response) {
     return this.prescriptionRelMedicalService.remove(+id, response);
   }
 }

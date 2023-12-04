@@ -16,26 +16,19 @@ export class PrescriptionRelMedicalService {
       const data = await this.prisma.prescriptionRelMedical.create({
         data: createPrescriptionRelMedicalDto,
       });
-      if (data) {
-        return response.status(200).json({
-          status: 200,
-          result: {
-            data,
-            message: "Create new Prescription Rel Medical successfully",
-          },
-        });
-      } else {
-        return response.status(400).json({
-          status: 400,
-          result: {
-            data,
-            message: "Create new Prescription Rel Medical failed",
-          },
-        });
-      }
+      const isObjectEmpty = JSON.stringify(data) === "{}";
+      return response.status(!isObjectEmpty ? 200 : 400).json({
+        status: !isObjectEmpty ? 200 : 400,
+        message: !isObjectEmpty
+          ? "Create new Prescription Rel Medical successfully"
+          : "Create new Prescription Rel Medical failed",
+        result: {
+          data,
+        },
+      });
     } catch {
       return {
-        statusCode: 400,
+        status: 400,
         message: "Something went wrong",
       };
     }
@@ -44,30 +37,20 @@ export class PrescriptionRelMedicalService {
   async findAll(response: Response) {
     try {
       const data = await this.prisma.prescriptionRelMedical.findMany();
-      if (data.length) {
-        return response.status(200).json({
-          status: 200,
-          result: {
-            message: "Get all Prescription Rel Medical successfully",
-            data,
-          },
-        });
-      } else {
-        return response.status(200).json({
-          status: 200,
-          result: {
-            data,
-            message: "List Prescription Rel Medical record is empty",
-          },
-        });
-      }
-    } catch {
-      return response.status(400).json({
-        status: 400,
+      return response.status(data.length ? 200 : 400).json({
+        status: data.length ? 200 : 400,
+        message: data.length
+          ? "Get all Prescription Rel Medical successfully"
+          : "List Prescription Rel Medical record is empty",
         result: {
-          message: "Something went wrong",
+          data: data.length ? data : [],
         },
       });
+    } catch {
+      return {
+        status: 400,
+        message: "Something went wrong",
+      };
     }
   }
 
@@ -76,29 +59,21 @@ export class PrescriptionRelMedicalService {
       const data = this.prisma.prescriptionRelMedical.findFirst({
         where: { id },
       });
-      if (data) {
-        return response.status(200).json({
-          status: 200,
-          result: {
-            message: `Get Prescription Rel Medical ${id} successfully`,
-            data,
-          },
-        });
-      } else {
-        return response.status(200).json({
-          status: 200,
-          result: {
-            message: `Prescription Rel Medical ${id} not found`,
-          },
-        });
-      }
-    } catch {
-      return response.status(400).json({
-        status: 400,
+      const isObjectEmpty = JSON.stringify(data) === "{}";
+      return response.status(!isObjectEmpty ? 200 : 400).json({
+        status: 200,
+        message: !isObjectEmpty
+          ? `Get Prescription Rel Medical ${id} successfully`
+          : `Prescription Rel Medical ${id} not found`,
         result: {
-          message: `Something went wrong`,
+          data: !isObjectEmpty ? data : [],
         },
       });
+    } catch {
+      return {
+        status: 400,
+        message: `Something went wrong`,
+      };
     }
   }
 
@@ -114,18 +89,16 @@ export class PrescriptionRelMedicalService {
       });
       return response.status(200).json({
         status: 200,
+        message: `Update Prescription Rel Medical with id = ${id} successfully`,
         result: {
-          message: `Update Prescription Rel Medical with id ${id} successfully`,
           data,
         },
       });
     } catch {
-      return response.status(400).json({
+      return {
         status: 400,
-        result: {
-          message: `Something went wrong`,
-        },
-      });
+        message: `Something went wrong`,
+      };
     }
   }
 
@@ -134,17 +107,13 @@ export class PrescriptionRelMedicalService {
       await this.prisma.prescriptionRelMedical.delete({ where: { id } });
       return response.status(200).json({
         status: 200,
-        result: {
-          message: `Delete Prescription Rel Medical with id ${id} successfully`,
-        },
+        message: `Delete Prescription Rel Medical with id = ${id} successfully`,
       });
     } catch {
-      return response.status(400).json({
+      return {
         status: 400,
-        result: {
-          message: `Something went wrong`,
-        },
-      });
+        message: `Something went wrong`,
+      };
     }
   }
 }

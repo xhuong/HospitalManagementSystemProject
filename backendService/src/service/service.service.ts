@@ -12,29 +12,17 @@ export class ServiceService {
       const data = await this.prisma.service.create({
         data: createServiceDto,
       });
-      if (data) {
-        return response.status(200).json({
-          result: {
-            statusCode: 200,
-            message: "Create new service successfully",
-            data,
-          },
-        });
-      } else {
-        return response.status(400).json({
-          result: {
-            statusCode: 400,
-            message: "Create new service failed",
-            data,
-          },
-        });
-      }
+      return response.status(200).json({
+        status: 200,
+        message: "Create new service successfully",
+        result: {
+          data,
+        },
+      });
     } catch {
       return response.status(400).json({
-        result: {
-          statusCode: 400,
-          message: "Something went wrong",
-        },
+        status: 400,
+        message: "Create new service failed",
       });
     }
   }
@@ -44,17 +32,15 @@ export class ServiceService {
       const data = await this.prisma.service.findMany();
       return response.status(200).json({
         status: 200,
+        message: "Get all service successfully",
         result: {
-          message: "Get all service successfully",
           data,
         },
       });
     } catch {
-      return response.status(200).json({
+      return response.status(400).json({
         status: 400,
-        result: {
-          message: "Something went wrong!",
-        },
+        message: "Get all service failed",
       });
     }
   }
@@ -66,17 +52,15 @@ export class ServiceService {
       });
       return response.status(200).json({
         status: 200,
+        message: `Find service with id = ${id} successfully`,
         result: {
-          message: "Get all service successfully",
           data,
         },
       });
     } catch {
-      return response.status(200).json({
+      return response.status(400).json({
         status: 400,
-        result: {
-          message: "Something went wrong!",
-        },
+        message: `Find service with id = ${id} failed`,
       });
     }
   }
@@ -93,16 +77,12 @@ export class ServiceService {
       });
       return response.status(200).json({
         status: 200,
-        result: {
-          message: `Delete service with id ${id} successfully`,
-        },
+        message: `Update service with id ${id} successfully`,
       });
     } catch {
       return response.status(400).json({
         status: 400,
-        result: {
-          message: `Update service with id ${id} failed`,
-        },
+        message: `Update service with id ${id} failed`,
       });
     }
   }
@@ -112,16 +92,12 @@ export class ServiceService {
       await this.prisma.service.delete({ where: { id } });
       return response.status(200).json({
         status: 200,
-        result: {
-          message: `Delete service with id ${id} successfully`,
-        },
+        message: `Delete service with id ${id} successfully`,
       });
     } catch {
-      return response.status(200).json({
-        status: 200,
-        result: {
-          message: `Delete service with id ${id} failed`,
-        },
+      return response.status(400).json({
+        status: 400,
+        message: `Delete service with id ${id} failed`,
       });
     }
   }

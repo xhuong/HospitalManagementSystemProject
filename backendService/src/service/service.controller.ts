@@ -23,42 +23,42 @@ export class ServiceController {
   constructor(private readonly serviceService: ServiceService) {}
 
   // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Post()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
-  create(@Body() createServiceDto: CreateServiceDto, response: Response) {
+  create(
+    @Body() createServiceDto: CreateServiceDto,
+    @Res() response: Response,
+  ) {
     return this.serviceService.create(createServiceDto, response);
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
   findAll(@Res() response: Response) {
     return this.serviceService.findAll(response);
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Get(":id")
   findOne(@Param("id") id: string, response: Response) {
     return this.serviceService.findOne(+id, response);
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Patch(":id")
   update(
     @Param("id") id: string,
     @Body() updateServiceDto: UpdateServiceDto,
-    response: Response,
+    @Res() response: Response,
   ) {
     return this.serviceService.update(+id, updateServiceDto, response);
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
-  @Get()
-  @Roles(Role.DOCTOR, Role.PHARMACIST)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Delete(":id")
   remove(@Param("id") id: string, response: Response) {
     return this.serviceService.remove(+id, response);

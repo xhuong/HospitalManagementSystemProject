@@ -15,24 +15,17 @@ export class ServiceRelMedicalExaminationService {
       const data = await this.prisma.serviceRelMedicalExamination.create({
         data: createServiceRelMedicalExaminationDto,
       });
-      if (data) {
-        return {
+      return response.status(200).json({
+        status: 200,
+        message: "Create new Service Rel Medical Examination successfully",
+        result: {
           data,
-          statusCode: 200,
-          message: "Create new Service Rel Medical Examination successfully",
-        };
-      } else {
-        return {
-          statusCode: 400,
-          message: "Create new Service Rel Medical Examination failed",
-        };
-      }
-    } catch {
+        },
+      });
+    } catch (error) {
       return response.status(400).json({
         status: 400,
-        result: {
-          message: "Something went wrong",
-        },
+        message: error,
       });
     }
   }
@@ -43,26 +36,21 @@ export class ServiceRelMedicalExaminationService {
       if (data.length) {
         return response.status(200).json({
           status: 200,
+          message: "Get all Service Rel Medical Examination successfully",
           result: {
-            message: "Get all Service Rel Medical Examination successfully",
             data,
           },
         });
       } else {
         return response.status(200).json({
           status: 200,
-          result: {
-            data,
-            message: "List Service Rel Medical Examination record is empty",
-          },
+          message: "List Service Rel Medical Examination record is empty",
         });
       }
-    } catch {
+    } catch (error) {
       return response.status(400).json({
         status: 400,
-        result: {
-          message: "Something went wrong",
-        },
+        message: error,
       });
     }
   }
@@ -75,25 +63,21 @@ export class ServiceRelMedicalExaminationService {
       if (data) {
         return response.status(200).json({
           status: 200,
+          message: `Get Service Rel Medical Examination ${id} successfully`,
           result: {
-            message: `Get Service Rel Medical Examination ${id} successfully`,
             data,
           },
         });
       } else {
-        return response.status(200).json({
-          status: 200,
-          result: {
-            message: `Service Rel Medical Examination ${id} not found`,
-          },
+        return response.status(404).json({
+          status: 404,
+          message: `Service Rel Medical Examination ${id} not found`,
         });
       }
-    } catch {
+    } catch (error) {
       return response.status(400).json({
         status: 400,
-        result: {
-          message: `Something went wrong`,
-        },
+        message: error,
       });
     }
   }
@@ -110,17 +94,15 @@ export class ServiceRelMedicalExaminationService {
       });
       return response.status(200).json({
         status: 200,
+        message: `Update Service Rel Medical Examination with id ${id} successfully`,
         result: {
-          message: `Update Service Rel Medical Examination with id ${id} successfully`,
           data,
         },
       });
-    } catch {
+    } catch (error) {
       return response.status(400).json({
         status: 400,
-        result: {
-          message: `Something went wrong`,
-        },
+        message: error,
       });
     }
   }
@@ -130,16 +112,12 @@ export class ServiceRelMedicalExaminationService {
       await this.prisma.serviceRelMedicalExamination.delete({ where: { id } });
       return response.status(200).json({
         status: 200,
-        result: {
-          message: `Delete Service Rel Medical Examination with id ${id} successfully`,
-        },
+        message: `Delete Service Rel Medical Examination with id ${id} successfully`,
       });
-    } catch {
+    } catch (error) {
       return response.status(400).json({
         status: 400,
-        result: {
-          message: `Something went wrong`,
-        },
+        message: error,
       });
     }
   }
