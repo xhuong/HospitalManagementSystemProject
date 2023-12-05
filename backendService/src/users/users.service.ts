@@ -98,6 +98,7 @@ export class UsersService {
       });
     } catch {
       return {
+        status: 400,
         message: `Delete user with id ${id} failed`,
       };
     }
@@ -108,11 +109,12 @@ export class UsersService {
     response: Response,
   ) {
     try {
-      const data = await this.prisma.medicalRecord.findMany({
+      const data = await this.prisma.medicalRecord.findFirst({
         where: {
           id_patient: idUser,
         },
         include: {
+          patient: true,
           MedicalExamination: {
             include: {
               ServiceRelMedicalExamination: {
@@ -133,14 +135,20 @@ export class UsersService {
           },
         },
       });
-
-      return response.status(200).json({
-        status: 200,
-        message: "getServiceCostForMedicalExamination successfully",
-        result: {
-          data,
-        },
-      });
+      if (!Object.is(data, null)) {
+        return response.status(200).json({
+          status: 200,
+          message: `view history medical examination of user ${data.patient.name} successfully`,
+          result: {
+            data,
+          },
+        });
+      } else {
+        return response.status(200).json({
+          status: 200,
+          message: `The patient with id = ${idUser} not found`,
+        });
+      }
     } catch (error) {
       return response.status(400).json({
         status: 400,
