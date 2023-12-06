@@ -11,19 +11,18 @@ CREATE TABLE `Role` (
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `user_name` VARCHAR(191) NOT NULL,
-    `password` VARCHAR(191) NOT NULL,
-    `birthday` DATETIME(3) NOT NULL,
-    `phone_number` VARCHAR(191) NOT NULL,
-    `address` VARCHAR(191) NOT NULL,
-    `gender` ENUM('MALE', 'FEMALE', 'OTHER') NOT NULL,
+    `identificationCode` VARCHAR(191) NOT NULL,
+    `phone_number` VARCHAR(191) NULL,
+    `address` VARCHAR(191) NULL,
+    `gender` ENUM('MALE', 'FEMALE', 'OTHER') NULL,
     `id_role` INTEGER NOT NULL,
-    `id_department` INTEGER NOT NULL,
-    `id_room` INTEGER NOT NULL,
+    `id_department` INTEGER NULL,
+    `id_room` INTEGER NULL,
     `id_bed` INTEGER NULL,
     `create_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `update_at` DATETIME(3) NOT NULL,
 
+    UNIQUE INDEX `User_identificationCode_key`(`identificationCode`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

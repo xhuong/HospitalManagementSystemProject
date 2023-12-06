@@ -18,14 +18,13 @@ export class RoleService {
       if (isExitRole) {
         return response.status(201).json({
           status: 201,
-          result: {
-            message: "Role is exites",
-          },
+          message: "Role is exites",
         });
       }
       const data = await this.prisma.role.create({ data: createRoleDto });
       return response.status(200).json({
         status: 200,
+        message: "Create new role successfully",
         result: {
           data,
         },
@@ -39,11 +38,15 @@ export class RoleService {
     try {
       const data = await this.prisma.role.findMany();
       return {
+        status: 200,
         message: "Get all roles successfully",
-        data,
+        result: {
+          data,
+        },
       };
     } catch {
       return {
+        status: 400,
         message: `Get all roles failed`,
       };
     }
@@ -55,11 +58,15 @@ export class RoleService {
         where: { id },
       });
       return {
+        status: 200,
         message: `Get role data with id ${id} successfully`,
-        data,
+        result: {
+          data,
+        },
       };
     } catch {
       return {
+        status: 400,
         message: `Get role data with id ${id} failed`,
       };
     }

@@ -52,6 +52,11 @@ enum EPAYMENT_METHOD {
   BANK_TRANSFER
 }
 
+enum EPAYMENT_STATUS {
+  UNPAID
+  PAID
+}
+
 model Role {
   id   Int    @id @default(autoincrement())
   name String
@@ -59,21 +64,25 @@ model Role {
   User User[]
 }
 
+enum EHospitalAdmissionStatus {
+  OUT_PATIENT_TREATMENT
+  IN_PATIENT_TREATMENT
+}
+
 model User {
   id                  Int                   @id @default(autoincrement())
   name                String
-  user_name           String
+  phone_number        String?
+  identificationCode  String                @unique
   password            String
-  birthday            DateTime
-  phone_number        String
-  address             String
-  gender              EUserGender
+  address             String?
+  gender              EUserGender?
   id_role             Int
   role                Role                  @relation(fields: [id_role], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  id_department       Int
-  department          Department            @relation(fields: [id_department], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  id_room             Int
-  room                Room                  @relation(fields: [id_room], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id_department       Int?
+  department          Department?           @relation(fields: [id_department], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id_room             Int?
+  room                Room?                 @relation(fields: [id_room], references: [id], onDelete: Cascade, onUpdate: Cascade)
   id_bed              Int?
   bed                 Bed?                  @relation(fields: [id_bed], references: [id], onDelete: Cascade, onUpdate: Cascade)
   create_at           DateTime              @default(now())
@@ -119,12 +128,14 @@ model Bed {
 }
 
 model MedicalRecord {
-  id                 Int                  @id @default(autoincrement())
-  import_date_time   DateTime             @default(now())
-  export_date_time   DateTime?
-  id_patient         Int
-  patient            User                 @relation(fields: [id_patient], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  MedicalExamination MedicalExamination[]
+  id                        Int                      @id @default(autoincrement())
+  import_date_time          DateTime                 @default(now())
+  export_date_time          DateTime?
+  hospital_admission_status EHospitalAdmissionStatus @default(OUT_PATIENT_TREATMENT)
+  id_patient                Int
+  patient                   User                     @relation(fields: [id_patient], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  MedicalExamination        MedicalExamination[]
+  Payment                   Payment[]
 }
 
 model MedicalExamination {
@@ -183,5 +194,7 @@ model Payment {
   payment_date_time DateTime
   amount            Int
   payment_method    EPAYMENT_METHOD
-  quantity          Int             @default(1)
+  payment_status    EPAYMENT_STATUS @default(UNPAID)
+  id_medical_record Int
+  medical_record    MedicalRecord   @relation(fields: [id_medical_record], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

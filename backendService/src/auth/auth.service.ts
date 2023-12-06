@@ -6,30 +6,28 @@ import { PrismaService } from "src/prisma/prisma.service";
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
     private jwtService: JwtService,
     private prisma: PrismaService,
   ) {}
 
   roles = ["ADMIN", "DOCTOR", "PHARMACIST", "NURSE", "PATIENT"];
 
-  async signIn(phoneNumber: string, password: string) {
+  async signIn(identificationCode: string, password: string) {
     try {
-      const data = await this.prisma.user.findFirst({
-        where: { phone_number: phoneNumber },
+      const data = await this.prisma.user.findUnique({
+        where: { identificationCode: identificationCode },
       });
       if (!data) {
         return {
-          message: "Signed in failed, please check your username or password",
+          message:
+            "Signed in failed, please check your identification code or password",
         };
       }
       if (data) {
         if (data.password === password) {
-          console.log("data.user_name", data.user_name);
-
           const payload = {
             sub: password,
-            username: data.user_name,
+            identificationCode: data.identificationCode,
             role: this.roles[data.id_role - 1],
           };
           return {

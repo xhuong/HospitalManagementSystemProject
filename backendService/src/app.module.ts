@@ -20,6 +20,8 @@ import { BedModule } from "./bed/bed.module";
 import { MedicalExaminationModule } from "./medical_examination/medical_examination.module";
 import { ServiceRelMedicalExaminationModule } from "./service_rel_medical_examination/service_rel_medical_examination.module";
 import { PrescriptionRelMedicalModule } from "./prescription_rel_medical/prescription_rel_medical.module";
+import { ConfigModule } from "@nestjs/config";
+import { AuthService } from "./auth/auth.service";
 
 @Module({
   imports: [
@@ -39,14 +41,17 @@ import { PrescriptionRelMedicalModule } from "./prescription_rel_medical/prescri
     MedicalExaminationModule,
     ServiceRelMedicalExaminationModule,
     PrescriptionRelMedicalModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: ResponseInterceptor,
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: ResponseInterceptor,
+    // },
   ],
 })
 export class AppModule implements NestModule {

@@ -47,14 +47,14 @@ export class UsersService {
     }
   }
 
-  async findOne(username: string, response: Response) {
+  async findOne(identificationCode: string, response: Response) {
     try {
       const data = this.prisma.user.findFirst({
-        where: { user_name: username },
+        where: { identificationCode: identificationCode },
       });
       return response.status(200).json({
         status: 200,
-        message: `Get user ${username} successfully`,
+        message: `Get user ${identificationCode} successfully`,
         result: {
           data,
         },
@@ -62,7 +62,7 @@ export class UsersService {
     } catch {
       return {
         status: 400,
-        message: `Get user ${username} failed`,
+        message: `Get user ${identificationCode} failed`,
       };
     }
   }
