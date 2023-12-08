@@ -22,6 +22,14 @@ import { RolesGuard } from "src/common/roles/roles.guard";
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Post("create-many")
+  createManyUser(
+    @Body() createUserDto: CreateUserDto[],
+    @Res() response: Response,
+  ) {
+    return this.usersService.createMany(createUserDto, response);
+  }
+
   @Post("view-history")
   getServiceCostForMedicalExamination(
     @Body() requestBody: any,

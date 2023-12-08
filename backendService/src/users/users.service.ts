@@ -7,18 +7,94 @@ import { PrismaService } from "src/prisma/prisma.service";
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
+
+  async findUserByIdentificationCode(identificationCode: string) {
+    return await this.prisma.user.findUnique({
+      where: {
+        identificationCode: identificationCode,
+      },
+    });
+  }
+
   async create(createUserDto: CreateUserDto, response: Response) {
     try {
-      const data = await this.prisma.user.create({
-        data: createUserDto,
-      });
-      return response.status(200).json({
-        status: 200,
-        message: "Create new user successfully",
-        result: {
-          data,
-        },
-      });
+      const foundUser = await this.findUserByIdentificationCode(
+        createUserDto.identificationCode,
+      );
+      if (Object.is(foundUser, null)) {
+        const data = await this.prisma.user.create({
+          data: createUserDto,
+        });
+
+        return response.status(200).json({
+          status: 200,
+          message: "Create new user successfully",
+          result: {
+            data,
+          },
+        });
+      } else {
+        return response.status(400).json({
+          status: 400,
+          message:
+            "Create new user failed, please check the identification code",
+        });
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: error,
+      };
+    }
+  }
+
+  async createMany(createUserDto: CreateUserDto[], response: Response) {
+    try {
+      const allUserData = await this.prisma.user.findMany();
+      const listExistedUser = allUserData.filter((user) =>
+        createUserDto.some(
+          (userAdd) => user.identificationCode === userAdd.identificationCode,
+        ),
+      );
+
+      if (listExistedUser.length > 0) {
+        const listUniqueUser = createUserDto.filter((user) =>
+          allUserData.some(
+            (user2) => user2.identificationCode === user.identificationCode,
+          ),
+        );
+        const listUserCanAdd = createUserDto.filter((user) =>
+          allUserData.some(
+            (user2) => user2.identificationCode !== user.identificationCode,
+          ),
+        );
+        console.log("🚀  listUniqueUser:", listUniqueUser);
+        console.log("🚀  listUserCanAdd:", listUserCanAdd);
+
+        // await this.prisma.user.createMany({
+        //   data: listUniqueUser,
+        // });
+        return response.status(200).json({
+          status: 200,
+          message: `Ignored ${
+            listExistedUser.length > 1 ? "records" : "record"
+          } has been dupplicate`,
+          result: {
+            data: listUniqueUser,
+          },
+        });
+      } else {
+        const data = await this.prisma.user.createMany({
+          data: createUserDto,
+        });
+        return response.status(200).json({
+          status: 200,
+          message: "Created multiple users successfully",
+          result: {
+            data,
+          },
+        });
+      }
     } catch (error) {
       return {
         status: 400,

@@ -21,6 +21,14 @@ import { Response } from "express";
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
+  @Post("create-many")
+  createManyRole(
+    @Body() createRoleDto: CreateRoleDto[],
+    @Res() response: Response,
+  ) {
+    return this.roleService.createMany(createRoleDto, response);
+  }
+
   // @UseGuards(AuthGuard)
   // @Roles(Role.ADMIN)
   @Post()

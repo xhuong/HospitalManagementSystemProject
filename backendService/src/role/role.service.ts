@@ -8,6 +8,28 @@ import { Response } from "express";
 export class RoleService {
   constructor(private prisma: PrismaService) {}
 
+  async createMany(createRoleDto: CreateRoleDto[], response: Response) {
+    console.log("createRoleDto", createRoleDto);
+
+    try {
+      const data = await this.prisma.role.createMany({
+        data: createRoleDto,
+      });
+      return response.json({
+        message: "Created multiple roles successfully",
+        status: 200,
+        result: {
+          data,
+        },
+      });
+    } catch (error) {
+      return {
+        status: 400,
+        message: error,
+      };
+    }
+  }
+
   async create(createRoleDto: CreateRoleDto, response: Response) {
     try {
       const isExitRole = await this.prisma.role.findFirst({
