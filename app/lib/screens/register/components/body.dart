@@ -31,100 +31,87 @@ class _BodyState extends State<Body> {
             end: Alignment.bottomCenter,
           ),
         ),
-        padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.chevron_left,
-                      size: 24,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Tạo tài khoản',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: Color(
-                          0xFF001128,
-                        )),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFormField(
-                decoration: CustomInputDecoration(
-                  hintText: 'Họ và tên',
-                ),
-                controller: nameController,
-                validator: (value) {
-                  if (value == '' || value == null) {
-                    return 'Please enter your name';
-                  } else {
-                    return null;
-                  }
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
                 },
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                decoration: CustomInputDecoration(
-                  hintText: 'Số điện thoại',
-                ),
-                controller: phoneNumberController,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                decoration: CustomInputDecoration(
-                  hintText: 'Mật khẩu',
+                icon: const Icon(
+                  Icons.chevron_left,
+                  size: 30,
                 ),
               ),
-              const SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                decoration: CustomInputDecoration(
-                  hintText: 'Xác nhận mật khẩu',
+              SizedBox(height: getProportionateScreenHeight(16)),
+              const Align(
+                alignment: Alignment.center,
+                child: Text(
+                  'Tạo tài khoản',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: Color(
+                        0xFF001128,
+                      )),
                 ),
               ),
-              const SizedBox(
-                height: 24,
-              ),
-              DefaultButton(
-                text: 'Tiếp tục',
-                press: () {},
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              const Text(
-                'Bằng cách nhấn nút, tôi đồng ý với điều khoản và chính sách của\nSmartHOSP.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w400,
+              SizedBox(height: getProportionateScreenHeight(24)),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: CustomInputDecoration(
+                        hintText: 'Họ và tên',
+                      ),
+                      controller: nameController,
+                      keyboardType: TextInputType.name,
+                      validator: (value) {
+                        if (value == '' || value == null) {
+                          return 'Please enter your name';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    SizedBox(height: getProportionateScreenHeight(16)),
+                    TextFormField(
+                      decoration: CustomInputDecoration(
+                        hintText: 'CCCD',
+                      ),
+                      keyboardType: TextInputType.phone,
+                      controller: phoneNumberController,
+                    ),
+                    SizedBox(height: getProportionateScreenHeight(16)),
+                    TextFormField(
+                      decoration: CustomInputDecoration(
+                        hintText: 'Mật khẩu',
+                      ),
+                    ),
+                    SizedBox(height: getProportionateScreenHeight(16)),
+                    TextFormField(
+                      decoration: CustomInputDecoration(
+                        hintText: 'Xác nhận mật khẩu',
+                      ),
+                    ),
+                    SizedBox(height: getProportionateScreenHeight(24)),
+                    DefaultButton(
+                      text: 'Tiếp tục',
+                      press: () {},
+                    ),
+                    SizedBox(height: getProportionateScreenHeight(24)),
+                    const Text(
+                      'Bằng cách nhấn nút, tôi đồng ý với điều khoản và chính sách của\nSmartHOSP.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

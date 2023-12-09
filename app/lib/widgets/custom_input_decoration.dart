@@ -8,21 +8,26 @@ class CustomInputDecoration extends InputDecoration {
     Icon? prefixIcon,
     Widget? suffixIcon,
     bool enabled = true,
+    bool filled = true,
+    Color? fillColor,
   }) : super(
-          constraints: BoxConstraints(maxHeight: 70, minHeight: 47),
+          constraints: const BoxConstraints(maxHeight: 70, minHeight: 47),
           labelText: labelText,
           hintText: hintText,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
+          filled: filled,
+          fillColor: Colors.white,
           enabled: enabled,
           contentPadding: EdgeInsets.all(16),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
           ),
 // Customize the properties below according to your needs
-          // focusedBorder: const OutlineInputBorder(
-          //   borderSide: BorderSide(color: Colors.black, width: 2.0),
-          // ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(color: Color(0xFF1479FF), width: 1.5),
+          ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
             borderSide: BorderSide(color: Colors.white, width: 1.0),
@@ -33,7 +38,7 @@ class CustomInputDecoration extends InputDecoration {
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide(color: Colors.red, width: 2.0),
+            borderSide: BorderSide(color: Colors.red, width: 1.5),
           ),
 // labelStyle: const TextStyle(color: Colors.green),
 // hintStyle: const TextStyle(color: Colors.grey),
