@@ -6,8 +6,7 @@ enum ERoleType {
   PATIENT = "PATIENT",
 }
 
-export interface RoleDataType {
-  key: React.Key;
+export interface IRoleDataType {
   name: string;
   code: ERoleType;
 }

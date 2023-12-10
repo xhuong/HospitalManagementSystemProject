@@ -1,15 +1,17 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
   UserOutlined,
   SettingOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
+import { usePathname, useRouter } from "next/navigation";
+
+import { Layout, Menu, Button, theme } from "antd";
+import type { MenuProps } from "antd";
+import UserInformation from "../UserInformation";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,10 +19,7 @@ import {
   faBed,
   faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { Layout, Menu, Button, theme, Space, Typography } from "antd";
-import type { MenuProps } from "antd";
-import UserInformation from "../UserInformation";
-import { useRouter } from "next/navigation";
+
 const { Header, Sider, Content } = Layout;
 
 interface IMainLayoutPropsType {
@@ -34,11 +33,17 @@ export default function MainLayout({
   ...props
 }: IMainLayoutPropsType) {
   const [collapsed, setCollapsed] = useState(false);
+  const [listKey, setListKey] = useState({
+    openKeys: "",
+    selectedKeys: "",
+  });
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   const router = useRouter();
+  const pathName = usePathname();
 
   const listItem: MenuProps["items"] = [
     {
@@ -87,6 +92,7 @@ export default function MainLayout({
           key: "department-list",
           label: "Department list",
           icon: <FontAwesomeIcon icon={faArrowRight} />,
+          onClick: () => router.push("/department/department-list"),
         },
       ],
     },
@@ -99,6 +105,7 @@ export default function MainLayout({
           key: "Room-list",
           label: "Room list",
           icon: <FontAwesomeIcon icon={faArrowRight} />,
+          onClick: () => router.push("/room/room-list"),
         },
       ],
     },
@@ -111,6 +118,7 @@ export default function MainLayout({
           key: "bed-list",
           label: "Bed list",
           icon: <FontAwesomeIcon icon={faArrowRight} />,
+          onClick: () => router.push("/bed/bed-list"),
         },
       ],
     },
@@ -123,6 +131,7 @@ export default function MainLayout({
           key: "service-list",
           label: "Service list",
           icon: <FontAwesomeIcon icon={faArrowRight} />,
+          onClick: () => router.push("/service/service-list"),
         },
       ],
     },
@@ -135,13 +144,26 @@ export default function MainLayout({
           key: "role-list",
           label: "Role list",
           icon: <FontAwesomeIcon icon={faArrowRight} />,
+          onClick: () => router.push("/role/role-list"),
         },
       ],
     },
   ];
 
-  const { openKeys, selectedKeys } = props;
-  console.log(openKeys, selectedKeys);
+  useEffect(() => {
+    if (pathName.includes("/admin-list")) {
+      setListKey({
+        openKeys: "user-management",
+        selectedKeys: "admin-list",
+      });
+    }
+    if (pathName.includes("/doctor-list")) {
+      setListKey({
+        openKeys: "user-management",
+        selectedKeys: "doctor-list",
+      });
+    }
+  }, [pathName]);
 
   return (
     <Layout style={{ minHeight: "100%" }}>
@@ -150,6 +172,7 @@ export default function MainLayout({
         collapsible
         collapsed={collapsed}
         style={{ background: colorBgContainer }}
+        width={300}
       >
         <div
           style={{
@@ -161,8 +184,8 @@ export default function MainLayout({
         ></div>
         <Menu
           mode="inline"
-          // openKeys={[openKeys]}
-          // selectedKeys={[selectedKeys]}
+          openKeys={[listKey.openKeys]}
+          selectedKeys={[listKey.selectedKeys]}
           style={{ height: "100%", borderRight: 0 }}
           items={listItem}
         />
@@ -185,7 +208,7 @@ export default function MainLayout({
                 height: 64,
               }}
             />
-            <UserInformation name="Jesse Le" />
+            <UserInformation name="Xuân Hướng" imageSrc={""} />
           </div>
         </Header>
         <Content

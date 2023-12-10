@@ -3,8 +3,7 @@ export enum EGender {
   FEMALE = "FEMALE",
 }
 
-export interface UserDataType {
-  key: React.Key;
+export interface IUserDataType {
   id: number;
   name: string;
   phone?: string;

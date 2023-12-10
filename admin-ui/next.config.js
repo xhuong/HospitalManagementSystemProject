@@ -7,6 +7,9 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
+  env: {
+    REACT_APP_BASE_URL: process.env.REACT_APP_BASE_URL,
+  },
 };
 
 module.exports = nextConfig;

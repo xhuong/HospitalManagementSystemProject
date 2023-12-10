@@ -1,14 +1,17 @@
-import { EGender, UserDataType } from "@/types/user";
+import { EGender, IUserDataType } from "@/types/user";
 
-export const mapUserDataFromAPIToUI = (userDataAPIs: any[]): UserDataType[] =>
+export const mapUserDataFromAPIToUI = (userDataAPIs: any[]): IUserDataType[] =>
   userDataAPIs.map((user: any) => ({
     key: user.id,
-    id: user.id,
     name: user.name,
-    phone: user.phone,
-    identification_code: user.identification_code,
+    phone: user.phone_number,
+    identification_code: user.identificationCode,
     address: user.address,
-    gender: user.gender === EGender.MALE ? EGender.MALE : EGender.FEMALE,
+    gender: user.gender
+      ? user.gender === EGender.MALE
+        ? EGender.MALE
+        : EGender.FEMALE
+      : undefined,
     id_department: user.id_department,
     id_role: user.id_role,
     id_room: user.id_room,

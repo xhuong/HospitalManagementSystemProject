@@ -2,18 +2,25 @@
 
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { EGender, UserDataType } from "@/types/user";
+import { IUserDataType } from "@/types/user";
 import React, { useState, useEffect } from "react";
 import { Typography } from "antd";
 import { mapUserDataFromAPIToUI } from "../utils";
+import { useGetAllUserQuery } from "@/redux/services/userService";
 
 export default function AdminListPage() {
-  const [data, setData] = useState([]);
+  const { isLoading, data } = useGetAllUserQuery();
+  const [adminList, setAdminList] = useState<IUserDataType[]>([]);
   const { Text } = Typography;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (data) {
+      const { data: users } = data.result;
+      setAdminList(users.length > 0 ? mapUserDataFromAPIToUI(users) : []);
+    }
+  }, [data]);
 
-  const columns: ColumnsType<UserDataType> = [
+  const columns: ColumnsType<IUserDataType> = [
     {
       title: "Name",
       dataIndex: "name",
@@ -50,6 +57,9 @@ export default function AdminListPage() {
       title: "Gender",
       dataIndex: "gender",
       key: "gender",
+      render: (gender) => {
+        return <Text>{gender ?? "NaN"}</Text>;
+      },
     },
     {
       title: "Id role",
@@ -99,6 +109,11 @@ export default function AdminListPage() {
   ];
 
   return (
-    <Table dataSource={data} columns={columns} scroll={{ x: "max-content" }} />
+    <Table
+      dataSource={adminList}
+      loading={isLoading}
+      columns={columns}
+      scroll={{ x: "max-content" }}
+    />
   );
 }
