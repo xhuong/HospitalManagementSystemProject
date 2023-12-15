@@ -109,7 +109,7 @@ export class UsersService {
 
   async findOne(identificationCode: string, response: Response) {
     try {
-      const data = this.prisma.user.findFirst({
+      const data = await this.prisma.user.findFirst({
         where: { identificationCode: identificationCode },
       });
       return response.status(200).json({
