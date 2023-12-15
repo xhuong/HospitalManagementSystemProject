@@ -44,15 +44,18 @@ export class UsersController {
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.ADMIN)
   @Post()
-  create(@Body() createUserDto: CreateUserDto, @Res() response: Response) {
-    return this.usersService.create(createUserDto, response);
+  findOne(
+    @Body("identificationCode") identificationCode: string,
+    @Res() response: Response,
+  ) {
+    return this.usersService.findOne(identificationCode, response);
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.ADMIN)
-  @Post(":username")
-  findOne(@Param("username") username: string, @Res() response: Response) {
-    return this.usersService.findOne(username, response);
+  @Post()
+  create(@Body() createUserDto: CreateUserDto, @Res() response: Response) {
+    return this.usersService.create(createUserDto, response);
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
