@@ -57,30 +57,14 @@ export class UsersService {
         ),
       );
 
-      if (listExistedUser.length > 0) {
-        const listUniqueUser = createUserDto.filter((user) =>
-          allUserData.some(
-            (user2) => user2.identificationCode === user.identificationCode,
-          ),
-        );
-        const listUserCanAdd = createUserDto.filter((user) =>
-          allUserData.some(
-            (user2) => user2.identificationCode !== user.identificationCode,
-          ),
-        );
-        console.log("🚀  listUniqueUser:", listUniqueUser);
-        console.log("🚀  listUserCanAdd:", listUserCanAdd);
-
-        // await this.prisma.user.createMany({
-        //   data: listUniqueUser,
-        // });
-        return response.status(200).json({
-          status: 200,
-          message: `Ignored ${
-            listExistedUser.length > 1 ? "records" : "record"
-          } has been dupplicate`,
+      if (listExistedUser.length) {
+        return response.status(400).json({
+          status: 400,
+          message: `The list user${
+            listExistedUser.length > 1 ? "s" : ""
+          } below existed, please add another one or remove it`,
           result: {
-            data: listUniqueUser,
+            data: listExistedUser,
           },
         });
       } else {
