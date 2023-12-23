@@ -4,7 +4,7 @@ import { AppService } from "./app.service";
 import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
 import { DatabaseModule } from "./database/database.module";
-import { RoleModule } from "./role/role.module";
+// import { RoleModule } from "./role/role.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { ResponseInterceptor } from "./interceptors/response.interceptor";
@@ -22,13 +22,17 @@ import { ServiceRelMedicalExaminationModule } from "./service_rel_medical_examin
 import { PrescriptionRelMedicalModule } from "./prescription_rel_medical/prescription_rel_medical.module";
 import { ConfigModule } from "@nestjs/config";
 import { AuthService } from "./auth/auth.service";
+import { AdminModule } from "./admin/admin.module";
+import { DoctorModule } from "./doctor/doctor.module";
+import { PatientModule } from './patient/patient.module';
+import { AppointmentsModule } from './appointments/appointments.module';
 
 @Module({
   imports: [
     UsersModule,
     AuthModule,
     DatabaseModule,
-    RoleModule,
+    // RoleModule,
     PrismaModule,
     DepartmentModule,
     RoomModule,
@@ -44,6 +48,10 @@ import { AuthService } from "./auth/auth.service";
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    AdminModule,
+    DoctorModule,
+    PatientModule,
+    AppointmentsModule,
   ],
   controllers: [AppController],
   providers: [

@@ -8,6 +8,7 @@ import {
   MinLength,
 } from "class-validator";
 import { EUserGender } from "../interfaces";
+import { ERole } from "@prisma/client";
 
 export class CreateUserDto {
   @IsString()
@@ -17,7 +18,7 @@ export class CreateUserDto {
   phone_number: string;
 
   @IsString()
-  identificationCode: string;
+  identification_code: string;
 
   @IsString()
   @MinLength(8, {
@@ -33,8 +34,8 @@ export class CreateUserDto {
   @IsEnum(EUserGender, { message: "Invalid gender" })
   gender: EUserGender;
 
-  @IsNumber()
-  id_role: number;
+  @IsEnum(ERole, { message: "Invalid role" })
+  role: ERole;
 
   @IsOptional()
   @IsNumber()
@@ -43,10 +44,6 @@ export class CreateUserDto {
   @IsOptional()
   @IsNumber()
   id_room: number;
-
-  @IsOptional()
-  @IsNumber()
-  id_bed?: number;
 
   @IsDateString()
   create_at: Date;

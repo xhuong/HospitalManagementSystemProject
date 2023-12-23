@@ -57,38 +57,84 @@ enum EPAYMENT_STATUS {
   PAID
 }
 
-model Role {
-  id   Int    @id @default(autoincrement())
-  name String
-  code ERole
-  User User[]
-}
-
 enum EHospitalAdmissionStatus {
   OUT_PATIENT_TREATMENT
   IN_PATIENT_TREATMENT
 }
 
+enum EAppointmentsStatus {
+  ACCEPTED
+  PROCESSING
+  REJECTED
+}
+
 model User {
-  id                  Int                   @id @default(autoincrement())
+  id                  Int          @id @default(autoincrement())
   name                String
   phone_number        String?
-  identificationCode  String                @unique
+  identification_code String       @unique
   password            String
   address             String?
   gender              EUserGender?
-  id_role             Int
-  role                Role                  @relation(fields: [id_role], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  role                ERole
   id_department       Int?
-  department          Department?           @relation(fields: [id_department], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  department          Department?  @relation(fields: [id_department], references: [id], onDelete: Cascade, onUpdate: Cascade)
   id_room             Int?
-  room                Room?                 @relation(fields: [id_room], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  room                Room?        @relation(fields: [id_room], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  create_at           DateTime     @default(now())
+  update_at           DateTime     @updatedAt
+  Patient             Patient[]
+  Admin               Admin[]
+  Doctor              Doctor[]
+  Pharmacist          Pharmacist[]
+  Nurse               Nurse[]
+}
+
+model Patient {
+  id                  Int                   @id @default(autoincrement())
+  id_user             Int
+  user                User                  @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
   id_bed              Int?
   bed                 Bed?                  @relation(fields: [id_bed], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  create_at           DateTime              @default(now())
-  update_at           DateTime              @updatedAt
-  HealthInsuranceCard HealthInsuranceCard[]
   MedicalRecord       MedicalRecord[]
+  HealthInsuranceCard HealthInsuranceCard[]
+}
+
+model Admin {
+  id      Int  @id @default(autoincrement())
+  id_user Int
+  user    User @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Doctor {
+  id      Int  @id @default(autoincrement())
+  id_user Int
+  user    User @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  appointments Appointments[]
+}
+
+model Pharmacist {
+  id      Int  @id @default(autoincrement())
+  id_user Int
+  user    User @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Nurse {
+  id      Int  @id @default(autoincrement())
+  id_user Int
+  user    User @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model MedicalRecord {
+  id                        Int                      @id @default(autoincrement())
+  import_date_time          DateTime                 @default(now())
+  export_date_time          DateTime?
+  hospital_admission_status EHospitalAdmissionStatus @default(OUT_PATIENT_TREATMENT)
+  id_patient                Int
+  patient                   Patient                  @relation(fields: [id_patient], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  MedicalExamination        MedicalExamination[]
+  Payment                   Payment[]
+  appointment Appointments[]
 }
 
 model HealthInsuranceCard {
@@ -97,7 +143,7 @@ model HealthInsuranceCard {
   year_duration Int
   status        EHealthInsuranceCardStatus
   id_patient    Int
-  patient       User                       @relation(fields: [id_patient], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Patient       Patient                    @relation(fields: [id_patient], references: [id])
 }
 
 model Department {
@@ -124,18 +170,7 @@ model Bed {
   name    String
   id_room Int
   room    Room   @relation(fields: [id_room], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  User    User[]
-}
-
-model MedicalRecord {
-  id                        Int                      @id @default(autoincrement())
-  import_date_time          DateTime                 @default(now())
-  export_date_time          DateTime?
-  hospital_admission_status EHospitalAdmissionStatus @default(OUT_PATIENT_TREATMENT)
-  id_patient                Int
-  patient                   User                     @relation(fields: [id_patient], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  MedicalExamination        MedicalExamination[]
-  Payment                   Payment[]
+  Patient Patient[]
 }
 
 model MedicalExamination {
@@ -198,3 +233,18 @@ model Payment {
   id_medical_record Int
   medical_record    MedicalRecord   @relation(fields: [id_medical_record], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
+
+model Appointments {
+  id                Int     @id @default(autoincrement())
+  id_patient        Int
+  Patient           MedicalRecord @relation(fields: [id_patient], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id_doctor         Int
+  Doctor            Doctor @relation(fields: [id_doctor], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  appointment_date  DateTime  @default(now())
+  start_time        DateTime  @default(now())
+  end_time          DateTime  @default(now())
+  status            EAppointmentsStatus @default(PROCESSING)
+}
+
+
+

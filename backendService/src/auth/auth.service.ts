@@ -14,7 +14,7 @@ export class AuthService {
   async signIn(identificationCode: string, password: string) {
     try {
       const data = await this.prisma.user.findUnique({
-        where: { identificationCode: identificationCode },
+        where: { identification_code: identificationCode },
       });
       if (!data) {
         return {
@@ -26,8 +26,8 @@ export class AuthService {
         if (data.password === password) {
           const payload = {
             sub: password,
-            identificationCode: data.identificationCode,
-            role: this.roles[data.id_role - 1],
+            identificationCode: data.identification_code,
+            role: data.role,
           };
           return {
             message: "Signed in successfully",

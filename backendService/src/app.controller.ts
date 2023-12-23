@@ -14,8 +14,10 @@ export class AppController {
 
   @Post("/VerifyOtp")
   async verifyOtp(@Body() data: { phone: string; otp: string }) {
-    let prefix = "+84";
-    let phone = prefix.concat(data.phone);
+    const prefix = "+84";
+    const phone = prefix.concat(data.phone);
     return await this.appService.verifyOtp(phone, data.otp);
   }
+
+  // @Post("/getAppointmentsForPatient")
 }

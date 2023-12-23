@@ -16,14 +16,66 @@ CREATE TABLE `User` (
     `password` VARCHAR(191) NOT NULL,
     `address` VARCHAR(191) NULL,
     `gender` ENUM('MALE', 'FEMALE', 'OTHER') NULL,
-    `id_role` INTEGER NOT NULL,
+    `role` ENUM('ADMIN', 'DOCTOR', 'PHARMACIST', 'NURSE', 'PATIENT') NOT NULL,
     `id_department` INTEGER NULL,
     `id_room` INTEGER NULL,
     `id_bed` INTEGER NULL,
     `create_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `update_at` DATETIME(3) NOT NULL,
+    `roleId` INTEGER NULL,
 
     UNIQUE INDEX `User_identificationCode_key`(`identificationCode`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Patient` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id_user` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Admin` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id_user` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Doctor` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id_user` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Pharmacist` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id_user` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Nurse` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id_user` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `MedicalRecord` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `import_date_time` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `export_date_time` DATETIME(3) NULL,
+    `hospital_admission_status` ENUM('OUT_PATIENT_TREATMENT', 'IN_PATIENT_TREATMENT') NOT NULL DEFAULT 'OUT_PATIENT_TREATMENT',
+    `id_patient` INTEGER NOT NULL,
+
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -63,17 +115,6 @@ CREATE TABLE `Bed` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `id_room` INTEGER NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `MedicalRecord` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `import_date_time` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `export_date_time` DATETIME(3) NULL,
-    `hospital_admission_status` ENUM('OUT_PATIENT_TREATMENT', 'IN_PATIENT_TREATMENT') NOT NULL DEFAULT 'OUT_PATIENT_TREATMENT',
-    `id_patient` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -149,9 +190,6 @@ CREATE TABLE `Payment` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `User` ADD CONSTRAINT `User_id_role_fkey` FOREIGN KEY (`id_role`) REFERENCES `Role`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `User` ADD CONSTRAINT `User_id_department_fkey` FOREIGN KEY (`id_department`) REFERENCES `Department`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -161,16 +199,34 @@ ALTER TABLE `User` ADD CONSTRAINT `User_id_room_fkey` FOREIGN KEY (`id_room`) RE
 ALTER TABLE `User` ADD CONSTRAINT `User_id_bed_fkey` FOREIGN KEY (`id_bed`) REFERENCES `Bed`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `HealthInsuranceCard` ADD CONSTRAINT `HealthInsuranceCard_id_patient_fkey` FOREIGN KEY (`id_patient`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `User` ADD CONSTRAINT `User_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `Role`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Patient` ADD CONSTRAINT `Patient_id_user_fkey` FOREIGN KEY (`id_user`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Admin` ADD CONSTRAINT `Admin_id_user_fkey` FOREIGN KEY (`id_user`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Doctor` ADD CONSTRAINT `Doctor_id_user_fkey` FOREIGN KEY (`id_user`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Pharmacist` ADD CONSTRAINT `Pharmacist_id_user_fkey` FOREIGN KEY (`id_user`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Nurse` ADD CONSTRAINT `Nurse_id_user_fkey` FOREIGN KEY (`id_user`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `MedicalRecord` ADD CONSTRAINT `MedicalRecord_id_patient_fkey` FOREIGN KEY (`id_patient`) REFERENCES `Patient`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `HealthInsuranceCard` ADD CONSTRAINT `HealthInsuranceCard_id_patient_fkey` FOREIGN KEY (`id_patient`) REFERENCES `Patient`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Room` ADD CONSTRAINT `Room_id_department_fkey` FOREIGN KEY (`id_department`) REFERENCES `Department`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Bed` ADD CONSTRAINT `Bed_id_room_fkey` FOREIGN KEY (`id_room`) REFERENCES `Room`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `MedicalRecord` ADD CONSTRAINT `MedicalRecord_id_patient_fkey` FOREIGN KEY (`id_patient`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `MedicalExamination` ADD CONSTRAINT `MedicalExamination_id_medical_record_fkey` FOREIGN KEY (`id_medical_record`) REFERENCES `MedicalRecord`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

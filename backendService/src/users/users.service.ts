@@ -11,7 +11,7 @@ export class UsersService {
   async findUserByIdentificationCode(identificationCode: string) {
     return await this.prisma.user.findUnique({
       where: {
-        identificationCode: identificationCode,
+        identification_code: identificationCode,
       },
     });
   }
@@ -19,7 +19,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto, response: Response) {
     try {
       const foundUser = await this.findUserByIdentificationCode(
-        createUserDto.identificationCode,
+        createUserDto.identification_code,
       );
       if (Object.is(foundUser, null)) {
         const data = await this.prisma.user.create({
@@ -53,7 +53,7 @@ export class UsersService {
       const allUserData = await this.prisma.user.findMany();
       const listExistedUser = allUserData.filter((user) =>
         createUserDto.some(
-          (userAdd) => user.identificationCode === userAdd.identificationCode,
+          (userAdd) => user.identification_code === userAdd.identification_code,
         ),
       );
 
@@ -107,14 +107,14 @@ export class UsersService {
     }
   }
 
-  async findOne(identificationCode: string, response: Response) {
+  async findOne(identification_code: string, response: Response) {
     try {
       const data = await this.prisma.user.findFirst({
-        where: { identificationCode: identificationCode },
+        where: { identification_code: identification_code },
       });
       return response.status(200).json({
         status: 200,
-        message: `Get user ${identificationCode} successfully`,
+        message: `Get user ${identification_code} successfully`,
         result: {
           data,
         },
@@ -122,7 +122,7 @@ export class UsersService {
     } catch {
       return {
         status: 400,
-        message: `Get user ${identificationCode} failed`,
+        message: `Get user ${identification_code} failed`,
       };
     }
   }
@@ -198,7 +198,7 @@ export class UsersService {
       if (!Object.is(data, null)) {
         return response.status(200).json({
           status: 200,
-          message: `view history medical examination of user ${data.patient.name} successfully`,
+          message: `view history medical examination of user ${data.patient.id_user} successfully`,
           result: {
             data,
           },
