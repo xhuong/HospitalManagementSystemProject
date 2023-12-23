@@ -43,7 +43,11 @@ export class AppointmentsService {
           id_doctor,
         },
         include: {
-          Doctor: true,
+          Doctor: {
+            include: {
+              user: true,
+            },
+          },
         },
       });
       if (appointments.length > 0) {
