@@ -46,13 +46,18 @@ export class AppointmentsService {
           Doctor: true,
         },
       });
-      if (!Object.is(appointments, null)) {
+      if (appointments.length > 0) {
         return response.status(200).json({
           message: `get all appointment of doctor with id = ${id_doctor} successfully`,
           status: 200,
           result: {
             appointments,
           },
+        });
+      } else {
+        return response.status(400).json({
+          message: `The appointment of doctor with id = ${id_doctor} is empty`,
+          status: 400,
         });
       }
     } catch (error) {

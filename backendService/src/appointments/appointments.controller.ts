@@ -17,7 +17,7 @@ import { Response } from "express";
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
-  @Post()
+  @Post("create-appointment")
   create(
     @Body() createAppointmentDto: CreateAppointmentDto,
     @Res() response: Response,
@@ -30,9 +30,9 @@ export class AppointmentsController {
     return this.appointmentsService.findAll();
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string, @Res() response: Response) {
-    return this.appointmentsService.findOne(+id, response);
+  @Post()
+  findOne(@Body("id_doctor") id_doctor: string, @Res() response: Response) {
+    return this.appointmentsService.findOne(+id_doctor, response);
   }
 
   @Patch(":id")
