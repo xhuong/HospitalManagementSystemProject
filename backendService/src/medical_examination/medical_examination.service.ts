@@ -15,6 +15,13 @@ export class MedicalExaminationService {
       const data = await this.prisma.medicalExamination.create({
         data: createMedicalExaminationDto,
       });
+      // return response.status(200).json({
+      //   status: 200,
+      //   message: "Create new Medical Examination successfully",
+      //   result: {
+      //     data,
+      //   },
+      // });
       return response.status(200).json({
         status: 200,
         message: "Create new Medical Examination successfully",
@@ -23,10 +30,11 @@ export class MedicalExaminationService {
         },
       });
     } catch (error) {
-      return response.status(400).json({
+      console.log("error", error);
+      return {
         status: 400,
-        message: error,
-      });
+        message: "Bad request",
+      };
     }
   }
 
@@ -51,10 +59,10 @@ export class MedicalExaminationService {
         });
       }
     } catch (error) {
-      return response.status(400).json({
+      return {
         status: 400,
-        message: error,
-      });
+        message: "Bad request",
+      };
     }
   }
 
@@ -78,10 +86,10 @@ export class MedicalExaminationService {
         });
       }
     } catch (error) {
-      return response.status(400).json({
+      return {
         status: 400,
-        message: error,
-      });
+        message: "Bad request",
+      };
     }
   }
 
@@ -103,10 +111,10 @@ export class MedicalExaminationService {
         },
       });
     } catch (error) {
-      return response.status(400).json({
+      return {
         status: 400,
-        message: error,
-      });
+        message: "Bad request",
+      };
     }
   }
 
@@ -118,10 +126,56 @@ export class MedicalExaminationService {
         message: `Delete Medical Examination with id ${id} successfully`,
       });
     } catch (error) {
-      return response.status(400).json({
+      return {
         status: 400,
-        message: error,
+        message: "Bad request",
+      };
+    }
+  }
+
+  async getAllServicesAndPrescriptionsByIdMedicalExamination(
+    id: number,
+    response: Response,
+  ) {
+    try {
+      const data = await this.prisma.medicalExamination.findMany({
+        where: { id },
+        include: {
+          Prescription: {
+            include: {
+              PrescriptionRelMedical: {
+                include: {
+                  medical: true,
+                },
+              },
+            },
+          },
+          ServiceRelMedicalExamination: {
+            include: {
+              service: true,
+            },
+          },
+        },
       });
+      if (data.length > 0) {
+        return response.status(200).json({
+          status: 200,
+          message: `getAllServicesAndPrescriptionsByIdMedicalExamination with id medical examination = ${id} successfully`,
+          result: {
+            data,
+          },
+        });
+      } else {
+        return response.status(200).json({
+          status: 200,
+          message: `Services and prescriptions with id medical examination = ${id} is empy`,
+        });
+      }
+    } catch (error) {
+      return {
+        status: 400,
+        message: "Bad request",
+      };
     }
   }
 }

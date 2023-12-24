@@ -5,6 +5,11 @@ import { Response } from "express";
 import { UpdatePatientDto } from "./dto/update-patient.dto";
 import { MedicalRecordService } from "src/medical_record/medical_record.service";
 
+enum EHospitalAdmissionStatus {
+  OUT_PATIENT_TREATMENT = "OUT_PATIENT_TREATMENT",
+  IN_PATIENT_TREATMENT = "IN_PATIENT_TREATMENT",
+}
+
 @Injectable()
 export class PatientService {
   constructor(
@@ -38,11 +43,16 @@ export class PatientService {
         });
 
         // create a new medical record in patient table
-        await this.medicalRecordService.create({
-          id_patient: patientData.id,
-          import_date_time: new Date(),
-          // export_date_time: null,
-        });
+        await this.medicalRecordService.create(
+          {
+            id_patient: patientData.id,
+            import_date_time: new Date(),
+            export_date_time: null,
+            hospital_admission_status:
+              EHospitalAdmissionStatus.OUT_PATIENT_TREATMENT,
+          },
+          response,
+        );
 
         return response.status(200).json({
           status: 200,

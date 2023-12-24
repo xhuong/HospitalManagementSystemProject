@@ -1,9 +1,9 @@
 import { IsDateString, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateMedicalExaminationDto {
-  @IsDateString()
   @IsNotEmpty()
-  medical_examination_date: Date;
+  @IsDateString()
+  medical_examination_date_time: Date;
 
   @IsString()
   @IsNotEmpty()

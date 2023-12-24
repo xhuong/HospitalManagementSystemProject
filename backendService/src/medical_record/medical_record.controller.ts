@@ -25,12 +25,38 @@ export class MedicalRecordController {
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Post()
-  create(@Body() createMedicalRecordDto: CreateMedicalRecordDto) {
-    return this.medicalRecordService.create(createMedicalRecordDto);
+  create(
+    @Body() createMedicalRecordDto: CreateMedicalRecordDto,
+    @Res() response: Response,
+  ) {
+    return this.medicalRecordService.create(createMedicalRecordDto, response);
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
+  @Post("get-all-medical-examination")
+  getAllMedicalExaminationByMedicalRecordId(
+    @Body("id_medical_record") id_medical_record: number,
+    @Res() response: Response,
+  ) {
+    return this.medicalRecordService.getAllMedicalExaminationByMedicalRecordId(
+      id_medical_record,
+      response,
+    );
+  }
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
+  @Post("get-all-by-id-patient")
+  getAllMedicalRecordForPatient(
+    @Body("id_patient") id_patient: number,
+    @Res() response: Response,
+  ) {
+    return this.medicalRecordService.getAllMedicalRecordForPatient(
+      id_patient,
+      response,
+    );
+  }
+
   @Get()
   findAll(@Res() response: Response) {
     return this.medicalRecordService.findAll(response);
@@ -39,8 +65,8 @@ export class MedicalRecordController {
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.medicalRecordService.findOne(+id);
+  findOne(@Param("id") id: string, @Res() response: Response) {
+    return this.medicalRecordService.findOne(+id, response);
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
@@ -49,14 +75,19 @@ export class MedicalRecordController {
   update(
     @Param("id") id: string,
     @Body() updateMedicalRecordDto: UpdateMedicalRecordDto,
+    @Res() response: Response,
   ) {
-    return this.medicalRecordService.update(+id, updateMedicalRecordDto);
+    return this.medicalRecordService.update(
+      +id,
+      updateMedicalRecordDto,
+      response,
+    );
   }
 
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.ADMIN, Role.DOCTOR, Role.PHARMACIST)
   @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.medicalRecordService.remove(+id);
+  remove(@Param("id") id: string, @Res() response: Response) {
+    return this.medicalRecordService.remove(+id, response);
   }
 }

@@ -26,10 +26,23 @@ export class MedicalExaminationController {
 
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.DOCTOR, Role.PHARMACIST)
+  @Post("get-all-services-prescriptions")
+  getAllServicesAndPrescriptionsByIdMedicalExamination(
+    @Body("id_medical_examination") id_medical_examination: number,
+    @Res() response: Response,
+  ) {
+    return this.medicalExaminationService.getAllServicesAndPrescriptionsByIdMedicalExamination(
+      id_medical_examination,
+      response,
+    );
+  }
+
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Post()
   create(
     @Body() createMedicalExaminationDto: CreateMedicalExaminationDto,
-    response: Response,
+    @Res() response: Response,
   ) {
     return this.medicalExaminationService.create(
       createMedicalExaminationDto,
@@ -47,7 +60,7 @@ export class MedicalExaminationController {
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.DOCTOR, Role.PHARMACIST)
   @Get(":id")
-  findOne(@Param("id") id: string, response: Response) {
+  findOne(@Param("id") id: string, @Res() response: Response) {
     return this.medicalExaminationService.findOne(+id, response);
   }
 
@@ -57,7 +70,7 @@ export class MedicalExaminationController {
   update(
     @Param("id") id: string,
     @Body() updateMedicalExaminationDto: UpdateMedicalExaminationDto,
-    response: Response,
+    @Res() response: Response,
   ) {
     return this.medicalExaminationService.update(
       +id,
@@ -68,9 +81,8 @@ export class MedicalExaminationController {
 
   // @UseGuards(AuthGuard, RolesGuard)
   // @Roles(Role.DOCTOR, Role.PHARMACIST)
-  @Get()
   @Delete(":id")
-  remove(@Param("id") id: string, response: Response) {
+  remove(@Param("id") id: string, @Res() response: Response) {
     return this.medicalExaminationService.remove(+id, response);
   }
 }

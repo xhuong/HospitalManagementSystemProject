@@ -12,25 +12,18 @@ export class MedicalService {
       const data = await this.prisma.medical.create({
         data: createMedicalDto,
       });
-      if (data) {
-        return {
-          data,
-          statusCode: 200,
-          message: "Create new medical successfully",
-        };
-      } else {
-        return {
-          statusCode: 400,
-          message: "Create new medical failed",
-        };
-      }
-    } catch {
-      return response.status(400).json({
-        status: 400,
+      return response.status(200).json({
+        status: 200,
+        message: "Create new medical successfully",
         result: {
-          message: "Something went wrong",
+          data,
         },
       });
+    } catch {
+      return {
+        status: 400,
+        message: "Bad request",
+      };
     }
   }
 
@@ -40,27 +33,25 @@ export class MedicalService {
       if (data.length) {
         return response.status(200).json({
           status: 200,
+          message: "Get all medical successfully",
           result: {
-            message: "Get all medical successfully",
             data,
           },
         });
       } else {
         return response.status(200).json({
           status: 200,
+          message: "List medical record is empty",
           result: {
             data,
-            message: "List medical record is empty",
           },
         });
       }
     } catch {
-      return response.status(400).json({
+      return {
         status: 400,
-        result: {
-          message: "Something went wrong",
-        },
-      });
+        message: "Bad request",
+      };
     }
   }
 
@@ -69,29 +60,25 @@ export class MedicalService {
       const data = this.prisma.medical.findFirst({
         where: { id },
       });
-      if (data) {
+      if (!Object.is(data, null)) {
         return response.status(200).json({
           status: 200,
+          message: `Get medical ${id} successfully`,
           result: {
-            message: `Get medical ${id} successfully`,
             data,
           },
         });
       } else {
         return response.status(200).json({
           status: 200,
-          result: {
-            message: `Medical ${id} not found`,
-          },
+          message: `Medical ${id} not found`,
         });
       }
     } catch {
-      return response.status(400).json({
+      return {
         status: 400,
-        result: {
-          message: `Something went wrong`,
-        },
-      });
+        message: "Bad request",
+      };
     }
   }
 
@@ -107,18 +94,16 @@ export class MedicalService {
       });
       return response.status(200).json({
         status: 200,
+        message: `Update medical with id ${id} successfully`,
         result: {
-          message: `Update medical with id ${id} successfully`,
           data,
         },
       });
     } catch {
-      return response.status(400).json({
+      return {
         status: 400,
-        result: {
-          message: `Something went wrong`,
-        },
-      });
+        message: "Bad request",
+      };
     }
   }
 
@@ -127,17 +112,13 @@ export class MedicalService {
       await this.prisma.medical.delete({ where: { id } });
       return response.status(200).json({
         status: 200,
-        result: {
-          message: `Delete medical with id ${id} successfully`,
-        },
+        message: `Delete medical with id ${id} successfully`,
       });
     } catch {
-      return response.status(400).json({
+      return {
         status: 400,
-        result: {
-          message: `Something went wrong`,
-        },
-      });
+        message: "Bad request",
+      };
     }
   }
 }
